@@ -1,0 +1,44 @@
+/components:
+  description: 组件API(短信,邮件,验证码等...)
+  /sms:
+    description: 短信组件接口
+    post:
+      description: 发送一条短信
+      body:
+        application/json:
+          schema: |
+            {}
+    /{pageSize}/{pageNumber}:
+      get:
+        description: 获取已发送的短信列表
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {}
+    /{id}:
+      put:
+        description: 重发一条短信(只针对失败的短信)
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+
+                  }
+    /templates:
+      get:
+        description: 获取所有可用的短息模板
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+
+                  }
+
+  /email:
+    description: 邮件发送接口(暂时不开放)

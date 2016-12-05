@@ -1,0 +1,310 @@
+description: 融资相关API[目前已弃用]
+post:
+  description: |
+    新建融资
+  body:
+    application/json:
+      schema: |
+        {
+          "type": "HOUSE_PAWN",
+          "payWay": "1001",
+          "startDate": "2010-09-10",
+          "amount": 10000.00,
+          "penaltyRate": 0.01,
+          "interestRate": 0.01,
+          "payCircle": 2,
+          "payTotalCircle": 3,
+          "customer": {
+            "customerName": "张三",
+            "mobilePhone" : "18516171924"
+          },
+          "pawn": {
+            "desc": "test test test"
+          }
+        }
+  responses:
+    200:
+      body:
+        application/json:
+          schema: |
+            {
+              "code":"200",
+              "message":"",
+              "data":{
+                "id":"89",
+                "amount":30000.00,
+                "...":"..."
+              },
+              "success":true
+            }
+/borrows:
+  get:
+    description: |
+      按条件获取融资合同列表
+        ~ 注意：api 前面没有 borrow
+    queryParameters:
+      scope:
+        type: string
+        description: = 'list'
+      keyId:
+        type: string
+        description: 贷款编号
+      beginDate:
+        type: date
+        description: 查询开始日期[yyyy-MM-dd 2014-09-10], 默认90天前
+      endDate:
+        type: date
+        description: 查询结束日期[yyyy-MM-dd 2016-09-10]
+      loanStatus:
+        type: string
+        description: IN_DRAFT/草稿 WAIT_LAUNCH/待放款 PAY_PROCESS/还款中 CHECK_BLOCK/暂缓中 BAD_LOAN/坏账 OVER_DUE/逾期 FINISH/完成
+      pageSize:
+        type: number
+        description: 页面大小，可选，默认10
+      pageNum:
+        type: number
+        description: 页数，可选，默认1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "data":[]
+              }
+/{id}:
+  get:
+    description: |
+      通过id获取一个融资项目详情
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 88,
+                  "accountId": 4,
+                  "businessType": {
+                    "code": "BORROW",
+                    "value": "融资"
+                  },
+                  "type": {
+                    "code": "HOUSE_PAWN",
+                    "value": "房屋抵押"
+                  },
+                  "payWay": {
+                    "code": "1001",
+                    "value": "先息后本"
+                  },
+                  "loanStatus": null,
+                  "amount": 30000.0,
+                  "startDate": 1441814400000,
+                  "finishDate": 1449590400000,
+                  "interestRate": 0.02,
+                  "penaltyRate": 0.001,
+                  "payCircle": 1,
+                  "payTotalCircle": 3,
+                  "keyId": "test0036",
+                  "extParams": {},
+                  "customer": null
+                },
+                "success": true
+              }
+  delete:
+    description: |
+      删除一个融资项目
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "data":"200"
+              }
+  /paybacks:
+    get:
+      description: |
+        获取一个融资项目的还款信息
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 725,
+                      "recordNo": null,
+                      "amount": -28200.0,
+                      "deadLine": 1441814400000,
+                      "state": {
+                        "code": "FINISH",
+                        "value": "已完成"
+                      },
+                      "loanId": 89,
+                      "actualAmount": -28200.0,
+                      "actualDate": 1441814400000,
+                      "actualInterest": null,
+                      "type": {
+                        "code": "LOAN_LAUNCH",
+                        "value": "放款"
+                      },
+                      "theoryAmount": -28200.0,
+                      "theoryDeadLine": 1441814400000,
+                      "process": null,
+                      "theoryInterest": 0.0,
+                      "recordItemDomains": [
+                        {
+                          "id": 1883,
+                          "updateTime": 1447250609000,
+                          "loanRecordId": 725,
+                          "amount": 30000.0,
+                          "itemType": {
+                            "code": "1001",
+                            "value": "本金"
+                          },
+                          "order": 1,
+                          "itemModel": "OUTCOME",
+                          "balance": 0.0,
+                          "keyId": null,
+                          "loanId": null
+                        },
+                        {
+                          "id": 1884,
+                          "updateTime": 1447250609000,
+                          "loanRecordId": 725,
+                          "amount": 1800.0,
+                          "itemType": {
+                            "code": "1002",
+                            "value": "利息"
+                          },
+                          "order": 2,
+                          "itemModel": "INCOME",
+                          "balance": 0.0,
+                          "keyId": null,
+                          "loanId": null
+                        }
+                      ],
+                      "order": 1,
+                      "loanPayItemModeEnum": "OUTCOME"
+                    }
+                  ],
+                  "success": true
+                }
+  /payback/{payId}:
+    put:
+      description: |
+        单独获取某条还款信息<br>
+        默认为正常还款日期，如果传一个实际还款日期，会根据实习还款日期计算违约金
+      queryParameters:
+        actualDate:
+          type: date
+          description: 实际还款日期 [yyyy-MM-dd 2016-09-10]
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 724,
+                    "recordNo": null,
+                    "amount": 50130.0,
+                    "deadLine": 1449590400000,
+                    "state": {
+                      "code": "PAY_PROCESS",
+                      "value": "还款中"
+                    },
+                    "loanId": 88,
+                    "actualAmount": null,
+                    "actualDate": 1507593600000,
+                    "actualInterest": null,
+                    "type": {
+                      "code": "LOAN_END_BACK",
+                      "value": "尾款"
+                    },
+                    "theoryAmount": 30000.0,
+                    "theoryDeadLine": 1449590400000,
+                    "process": null,
+                    "theoryInterest": 0.0,
+                    "recordItemDomains": [
+                      {
+                        "id": 1873,
+                        "updateTime": 1447250010000,
+                        "loanRecordId": 724,
+                        "amount": 30000.0,
+                        "itemType": {
+                          "code": "1001",
+                          "value": "本金"
+                        },
+                        "order": 1,
+                        "itemModel": "INCOME",
+                        "balance": 0.0,
+                        "keyId": null,
+                        "loanId": null
+                      },
+                      {
+                        "id": 1874,
+                        "updateTime": 1447250010000,
+                        "loanRecordId": 724,
+                        "amount": 0.0,
+                        "itemType": {
+                          "code": "1002",
+                          "value": "利息"
+                        },
+                        "order": 2,
+                        "itemModel": "INCOME",
+                        "balance": 0.0,
+                        "keyId": null,
+                        "loanId": null
+                      },
+                      {
+                        "id": null,
+                        "updateTime": null,
+                        "loanRecordId": 724,
+                        "amount": 20130.0,
+                        "itemType": {
+                          "code": "1003",
+                          "value": "违约金"
+                        },
+                        "order": 3,
+                        "itemModel": "INCOME",
+                        "balance": 0.0,
+                        "keyId": null,
+                        "loanId": null
+                      }
+                    ],
+                    "order": 2,
+                    "loanPayItemModeEnum": "INCOME"
+                  },
+                  "success": true
+                }
+    post:
+      description: |
+        还原已还款的项目
+      queryParameters:
+        operation:
+          type: string
+          description: = 'reset'
+      body:
+        application/json:
+          schema: |
+            {
+              "actualPayDate": "2016-03-15"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "data":"200"
+                }

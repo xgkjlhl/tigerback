@@ -1,0 +1,570 @@
+#%RAML 0.8
+
+description: 客户管理类API
+post:
+  description: 新增一个客户
+  body:
+    application/json:
+      schema: |
+        {
+          "name"      :"hupeng",
+          "mobile"    :"18516171260",
+          "idCard"    :"430405199109082033",
+          "email"     :"domicc@163.com",
+          "qq"        :"632094669",
+          "wx"        :"wxxxxxx",
+          "address"   :"xxxxxxx",
+          "birthday"  :"1991-09-08",
+          "gender"    :"MALE"
+        }
+  responses:
+    200:
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": {},
+              "success": true
+            }
+
+/tags:
+  get:
+    description: 获取当前用户所有标签，注意：没有前面的/customer，直接访问/tags
+    queryParameters:
+      scope:
+        type: string
+        example: "all"
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 2,
+                    "name": "testtag",
+                    "accountId": 2
+                  },
+                  {
+                    "id": 3,
+                    "name": "systag1",
+                    "accountId": -1
+                  },
+                  {
+                    "id": 4,
+                    "name": "systag2",
+                    "accountId": -1
+                  }
+                ],
+                "success": true
+              }
+
+/{id}:
+  get:
+    description: 获取客户信息(测试数据id=1)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 1,
+                  "name": "hupeng",
+                  "idCard": "430405199109082033",
+                  "mobile": "18516171260",
+                  "email": "domicc@163.com",
+                  "qq": "632094669",
+                  "wx": "wxxxxxx",
+                  "address": "xxxxxxx",
+                  "gender" :"MALE"
+                },
+                "success": true
+              }
+  put:
+    description: 更新客户基础信息
+    body:
+      application/json:
+        schema: |
+          {
+              "id": 1,
+              "name": "domi",
+              "idCard": "430405199109082033",
+              "mobile": "18516171260",
+              "email": "domicc@163.com",
+              "qq": "632094669",
+              "wx": "wxxxxxx",
+              "address": "modify",
+              "birthday"  :"1991-09-08"
+           }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {},
+                "success": true
+              }
+  delete:
+    description: 删除一个客户
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {},
+                "success": true
+              }
+  /attachs:
+    get:
+      queryParameters:
+        scope:
+          type: string
+          example: "list"
+        pageNum:
+          type: integer
+          example: "1"
+        pageSize:
+          type: integer
+          example: "2"
+      description: 查看用户附件列表
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":
+                  {
+                    "total":"5",
+                    "pageNumber":"1",
+                    "result":[
+                      {
+                        "id"        :"1",
+                        "url"       :"http://qiniu/attach/aa.pdf",
+                        "name"      :"test",
+                        "type":"ID_CARD",
+                        "createTime":"2015-09-12",
+                        "updateTime":"2015-09-12"
+                      },
+                      {
+                        "id"        :"2",
+                        "url"       :"http://qiniu/attach/a3a.pdf",
+                        "name"      :"test",
+                        "type":"ID_CARD",
+                        "createTime":"2015-09-13",
+                        "updateTime":"2015-09-13"
+                      }
+                    ]
+                  }
+                }
+  /attach:
+    post:
+      description: 添加一个用户附件
+      body:
+        application/json:
+          schema: |
+            {
+              "attachId":"1"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {},
+                  "success": true
+                }
+
+
+    /{aid}:
+      delete:
+        description: 删除一个用户附件
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {},
+                    "success": true
+                  }
+      get:
+        description: 获取一个附件所有信息
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {
+                      "id": 1,
+                      "url": "test",
+                      "name": null,
+                      "type": "",
+                      "metaData": null
+                    },
+                    "success": true
+                  }
+  /tags:
+    get:
+      description: 获取一个客户所有标签
+      queryParameters:
+        scope:
+          type: string
+          example: "all"
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 1,
+                      "name": "test1",
+                      "accountId": 1
+                    }
+                  ],
+                  "success": true
+                }
+  /tag:
+    /{tid}:
+      post:
+        description: 添加一个标签(测试数据id=1)
+        body:
+          application/json:
+            schema: |
+              {
+                "tagId":"1"
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {},
+                    "success": true
+                  }
+      delete:
+        description: 去掉一个标签
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {},
+                    "success": true
+                  }
+  /loans:
+    description: 查询一个客户贷款记录
+    get:
+      queryParameters:
+        scope:
+          type: string
+          example: "all"
+        startTime:
+          type: date
+          example: "2015-09-13"
+        endTime:
+          type: date
+          example: "2015-09-14"
+        pageNum:
+          type: integer
+          example: "1"
+        pageSize:
+          type: integer
+          example: "5"
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 3,
+                      "accountId": 1,
+                      "businessType": null,
+                      "type": "HOUSE_PAWN",
+                      "payWay": "PRE_INTEREST_END_PRINCIPAL",
+                      "loanStatus": "IN_DRAFT",
+                      "amount": 10000,
+                      "monthsLimit": null,
+                      "startDate": 1284048000000,
+                      "finishDate": 1299600000000,
+                      "interestRate": 0.01,
+                      "penaltyRate": 0.01,
+                      "bondPerform": 2100,
+                      "costService": 200,
+                      "costOther": 200,
+                      "costTemp": 200,
+                      "extParams": {},
+                      "payCircle": 2,
+                      "payTotalCircle": 3,
+                      "keyId": null,
+                      "loaner": null,
+                      "holder": null,
+                      "loanPawnDO": null
+                    },
+                    {
+                      "id": 4,
+                      "accountId": 1,
+                      "businessType": null,
+                      "type": "HOUSE_PAWN",
+                      "payWay": "PRE_INTEREST_END_PRINCIPAL",
+                      "loanStatus": "IN_DRAFT",
+                      "amount": 10000,
+                      "monthsLimit": null,
+                      "startDate": 1284048000000,
+                      "finishDate": 1299600000000,
+                      "interestRate": 0.01,
+                      "penaltyRate": 0.01,
+                      "bondPerform": 0,
+                      "costService": 0,
+                      "costOther": 0,
+                      "costTemp": 0,
+                      "extParams": {},
+                      "payCircle": 2,
+                      "payTotalCircle": 3,
+                      "keyId": null,
+                      "loaner": null,
+                      "holder": null,
+                      "loanPawnDO": null
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 2,
+                    "itemsPerPage": 5,
+                    "length": 2,
+                    "offset": 0,
+                    "beginIndex": 1,
+                    "endIndex": 2,
+                    "pages": 1,
+                    "firstPage": 1,
+                    "lastPage": 1,
+                    "previousPage": 1,
+                    "nextPage": 1,
+                    "slider": [
+                      1
+                    ]
+                  },
+                  "success": true
+                }
+  /messages:
+    description: 查询给当前客户的短信记录
+    get:
+      queryParameters:
+        scope:
+          type: string
+          example: "list"
+        startTime:
+          type: date
+          example: "2015-09-13"
+        endTime:
+          type: date
+          example: "2015-09-14"
+        pageNum:
+          type: integer
+          example: "1"
+        pageSize:
+          type: integer
+          example: "5"
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 1,
+                      "content": "test111",
+                      "success": "1",
+                      "sendTime": 1443541432000,
+                      "customerId": 1,
+                      "createTime": 1443541432000,
+                      "updateTime": 1443541432000
+                    },
+                    {
+                      "id": 2,
+                      "content": "test22",
+                      "success": "1",
+                      "sendTime": 1443541432000,
+                      "customerId": 1,
+                      "createTime": 1443541432000,
+                      "updateTime": 1443541432000
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 2,
+                    "itemsPerPage": 5,
+                    "length": 2,
+                    "offset": 0,
+                    "beginIndex": 1,
+                    "endIndex": 2,
+                    "nextPage": 1,
+                    "slider": [
+                      1
+                    ],
+                    "previousPage": 1,
+                    "firstPage": 1,
+                    "pages": 1,
+                    "lastPage": 1
+                  },
+                  "success": true
+                }
+
+
+/customersCount:
+  description: |
+    获取当前用户客户数,注意，实际url为/customers?operation=count
+  get:
+    queryParameters:
+      operation:
+        type: string
+        example: "count"
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "count":7
+                },
+                "success":true
+              }
+
+/customers:
+  description: |
+    列出登录客户会员（支持条件筛选）
+    注意：没有前面的/customer，直接访问/customers
+  get:
+    queryParameters:
+      param:
+        type: string
+        description: "查询参数"
+      scope:
+        type: string
+        example: "list"
+      pageNum:
+        type: integer
+        example: 1
+      pageSize:
+        type: integer
+        example: 5
+      tag:
+        type: string
+        description: 联系人标签(支持多个标签同时提交 暂时不开放)
+      hasLoan:
+        type: boolean
+        description: 是否有过贷款关系(暂时不开放)
+      hasBorrow:
+        type: boolean
+        description: 是否有过借款关系(暂时不开放)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 1,
+                    "name": "domi",
+                    "idCard": "430405199109082033",
+                    "mobile": "18516171260",
+                    "email": "domicc@163.com",
+                    "qq": "632094669",
+                    "wx": "wxxxxxx",
+                    "address": "modify",
+                    "companyId": 0,
+                    "acceptSms": false,
+                    "show": true,
+                    "accountId": 0
+                  }
+                ],
+                "paginator": {
+                  "page": 1,
+                  "items": 1,
+                  "itemsPerPage": 10,
+                  "length": 1,
+                  "offset": 0,
+                  "beginIndex": 1,
+                  "endIndex": 1,
+                  "slider": [
+                    1
+                  ],
+                  "nextPage": 1,
+                  "previousPage": 1,
+                  "lastPage": 1,
+                  "firstPage": 1,
+                  "pages": 1
+                },
+                "success": true
+              }
+
+
+/birthday:
+  description: |
+    获取当前月生日用户数及今天生日用户数
+  get:
+    queryParameters:
+      operation:
+        type: string
+        example: "count"
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "today":7,
+                  "month":4
+                },
+                "success":true
+              }

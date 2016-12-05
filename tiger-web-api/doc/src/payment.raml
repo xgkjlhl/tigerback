@@ -1,0 +1,260 @@
+description: 订单与支付API[暂时废弃]
+/order:
+  post:
+    description: 新增一笔订单
+    body:
+      application/json:
+        schema: |
+          {
+            "totalFee"  :"10998",
+            "discount"  :"2",
+            "notes"     :"优惠",
+            "objects"   :
+            [
+              {
+                "type"      :"PACKAGE",
+                "idInType"  :"1",
+                "subject"   :"白金会员1个月",
+                "price"     :"500.0",
+                "showUrl"   :"www.huiyuan.com",
+                "notes"     :"活动价",
+                "quantity"  :"12"
+              },
+              {
+                "type"      :"ADDON",
+                "idInType"  :"2",
+                "subject"   :"短信包",
+                "price"     :"50.0",
+                "showUrl"   :"www.duanxinbao.com",
+                "notes"     :"多买优惠",
+                "quantity"  :"100"
+              }
+            ]
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/orders:
+  get:
+    description: 获取当前用户的订单列表
+    queryParameters:
+      scope:
+        type: string
+        description: all | list
+      status:
+        type: string
+        description: UNPAID | PAID ...
+      pageSize:
+        type: integer
+        description: 默认为10
+      pageNum:
+        type: integer
+        description: 默认为1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "page_size": 15,
+                "page_number": 1,
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/order/{id}:
+  get:
+    description: 获取一笔订单
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 26,
+                  "userId": 2,
+                  "totalFee": 10998,
+                  "discount": 2,
+                  "notes": "优惠",
+                  "payType": {
+                    "code": "BUY",
+                    "value": "商品购买"
+                  },
+                  "objects": [
+                    {
+                      "id": 51,
+                      "type": {
+                        "code": "PACKAGE",
+                        "value": "套餐"
+                      },
+                      "idInType": 1,
+                      "subject": "白金会员1个月",
+                      "price": 500,
+                      "showUrl": "www.huiyuan.com",
+                      "notes": "活动价",
+                      "quantity": 12
+                    },
+                    {
+                      "id": 52,
+                      "type": {
+                        "code": "ADDON",
+                        "value": "增值包"
+                      },
+                      "idInType": 2,
+                      "subject": "短信包",
+                      "price": 50,
+                      "showUrl": "www.duanxinbao.com",
+                      "notes": "多买优惠",
+                      "quantity": 100
+                    }
+                  ],
+                  "createTime": 1445672820000,
+                  "updateTime": 1445672820000,
+                  "status": {
+                    "code": "CLOSED",
+                    "value": "订单关闭"
+                  },
+                  "isDeleted": false
+                },
+                "success": true
+              }
+  put:
+    description: 更新一笔订单(totalFee和discount只改一项会自动改另一项，同时改会检查关系)
+    body:
+      application/json:
+        schema: |
+          {
+              "status"  :"CLOSED",
+              "totalFee":"10.99",
+              "discount":"2.5"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+  delete:
+    description: 删除一笔订单（假删除）
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/order/{id}/pay:
+  put:
+    description: 支付一笔订单
+    queryParameters:
+      payMethod:
+        type: string
+        description: ALIPAY | ...
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":
+                {
+                  "trade_no":"123214"
+                }
+              }
+/order/{id}/refund:
+  post:
+    description: 对一笔订单进行退款
+    body:
+      application/json:
+        schema: |
+          {
+              "totalFee":"5.0",
+              "reason"   :"不喜欢",
+              "notes"    :"退全款"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":
+                {
+                  "batch_no":"123214"
+                }
+              }
+/order/{id}/refunds:
+  get:
+    description: 获取某一订单下的退款
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/refund/{id}:
+  get:
+    description: 获取一笔退款
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "total_fee" :"9.99",
+                "status"    :"退款成功",
+                "reason"    :"不喜欢",
+                "notes"     :"全额退款",
+                "order_id"  :"12321",
+                "batch_no"  :"23433"
+              }
+  put:
+    description: 更新一笔退款
+    body:
+      application/json:
+        schema: |
+          {
+              "status"  :"CLOSED"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }

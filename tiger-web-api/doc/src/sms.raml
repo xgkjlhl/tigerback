@@ -1,0 +1,371 @@
+description: 短信相关的接口(比如定时短信，营销短信，通知短信等)
+post:
+  description: 发短信（包括定时短信和即时短信）
+  body:
+      application/json:
+        schema: |
+          {"address":"四平路1239号"}
+  responses:
+    200:
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data":
+              [
+                {
+                  "id": 1,
+                  "name": "营销",
+                  "description": null,
+                  "msgTpls":
+                  [
+                    {
+                      "id": 1,
+                      "content": "尊敬的#name#，为您推荐一款理财产品。",
+                      "tplId": null
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "生日",
+                  "description": null,
+                  "msgTpls":
+                  [
+                    {
+                      "id": 2,
+                      "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                      "tplId": null
+                    }
+                  ]
+                }
+              ],
+              "success": true
+            }
+/templates:
+  get:
+    description: 获取所有的短信模板(这个不搞分页了，因为数量不多)
+    queryParameters:
+      scope:
+        type: string
+        description: |
+           all (获取所有模板)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                [
+                  {
+                    "id": 1,
+                    "name": "营销",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 1,
+                        "content": "尊敬的#name#，为您推荐一款理财产品。",
+                        "tplId": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "name": "生日",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 2,
+                        "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                        "tplId": null
+                      }
+                    ]
+                  }
+                ],
+                "success": true
+              }
+/history:
+  get:
+    description: 查看所有发送过的短信（包括发送失败的）
+    queryParameters:
+      timeScope:
+        type: integer
+        description: 时间范围
+        example: 7(7日之内)
+      state:
+        type: string
+        description: |
+          failed (发送失败状态)
+      pageSize:
+        type: integer
+        description: 每页显示记录数
+        example: 10
+      pageNum:
+        type: integer
+        description: 页码
+        example:  1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                [
+                  {
+                    "id": 1,
+                    "name": "营销",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 1,
+                        "content": "尊敬的#name#，为您推荐一款理财产品。",
+                        "tplId": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "name": "生日",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 2,
+                        "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                        "tplId": null
+                      }
+                    ]
+                  }
+                ],
+                "success": true
+              }
+/history/{id}:
+  put:
+    description: 重新发送失败的短信
+    queryParameters:
+      operation:
+        type: string
+        description: |
+           sendAgain (表示今日发送的短信)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                [
+                  {
+                    "id": 1,
+                    "name": "营销",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 1,
+                        "content": "尊敬的#name#，为您推荐一款理财产品。",
+                        "tplId": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "name": "生日",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 2,
+                        "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                        "tplId": null
+                      }
+                    ]
+                  }
+                ],
+                "success": true
+              }
+/scheduler:
+  get:
+    description: 获取所有的定时短信
+    queryParameters:
+      pageSize:
+        type: integer
+        description: 每页显示记录数
+        example: 10
+      pageNum:
+        type: integer
+        description: 页码
+        example: 1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                [
+                  {
+                    "id": 1,
+                    "name": "营销",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 1,
+                        "content": "尊敬的#name#，为您推荐一款理财产品。",
+                        "tplId": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "name": "生日",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 2,
+                        "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                        "tplId": null
+                      }
+                    ]
+                  }
+                ],
+                "success": true
+              }
+/scheduler/{id}:
+  put:
+    description: 立即发送定时短信
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                [
+                  {
+                    "id": 1,
+                    "name": "营销",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 1,
+                        "content": "尊敬的#name#，为您推荐一款理财产品。",
+                        "tplId": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "name": "生日",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 2,
+                        "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                        "tplId": null
+                      }
+                    ]
+                  }
+                ],
+                "success": true
+              }
+  delete:
+    description: 取消定时短信
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                [
+                  {
+                    "id": 1,
+                    "name": "营销",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 1,
+                        "content": "尊敬的#name#，为您推荐一款理财产品。",
+                        "tplId": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 2,
+                    "name": "生日",
+                    "description": null,
+                    "msgTpls":
+                    [
+                      {
+                        "id": 2,
+                        "content": "尊敬的##，您好，今日是您的生日，祝贺您生日快乐。",
+                        "tplId": null
+                      }
+                    ]
+                  }
+                ],
+                "success": true
+              }
+/verify:
+  get:
+    is: [secured]
+    description: |
+      发送指定业务类型的验证码到指定的手机号码
+    queryParameters:
+      smsBiz:
+        type: string
+        description: |
+          业务类型，详情参见 SmsVerifyCodeTypeEnum<br/>
+          register: 用户注册 -> 根据实际情况，请调用get /account/sms接口<br/>
+          resetPsd: 重置密码 -> 根据实际情况，请调用get /account/password/sms接口<br/>
+          resetMobile: 修改手机号 -> 现在限制为每天仅支持给同一帐号发送5条验证码短信
+      mobile:
+        type: string
+        description: |
+          电话号码: 15216758462
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+      803:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "803",
+                "message": "您今日绑定新手机号注册验证码短信额度已经用光,请明日再次尝试",
+                "data": null,
+                "success": false
+              }

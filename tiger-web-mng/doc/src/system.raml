@@ -1,0 +1,39 @@
+description: 系统配置和参数获取接口
+/dateTime:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": 1443948142574,
+                "success": true
+              }
+/dict:
+  get:
+    description: 获取系统字典表接口
+    queryParameters:
+      scope:
+        type: string
+        description: loan(贷款类) | system(系统类)
+      dictType:
+        type: string
+        description: |
+          loan->(bizType,payWay,loanPawnType,loanStatus,customerType)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "data":[
+                  {
+                    "code":"DEBX",
+                    "value":"等额本息"
+                  }
+                ]
+              }

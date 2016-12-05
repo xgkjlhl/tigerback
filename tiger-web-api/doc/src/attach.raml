@@ -1,0 +1,217 @@
+post:
+  is: [secured]
+  description:
+    创建七牛云附件
+      ～ 使用返回的json中的token和key作为POST到upload.qiniu.com的multipart/form-data中的token和key
+      ～ 文件作为multipart/form-data中的file， 文件大小应小于4M
+      约定一下附件申请token的时候（即访问post /attach时），metaData字段需要把当前附件的type传上来，下面是例子：
+        1. account头像, "type" 为 "ACCOUNT_ICON"
+        2. customer头像，"type" 为 "CUSTOMER_ICON"
+        3. customer附件，"type" 为 "CUSTOMER_ATTACH"
+        4. 贷款抵押物附件，"type" 为 "LOANPAWN_ATTACH"
+  body:
+    application/json:
+      schema: |
+        {
+          "name": {
+            "description": "文件名, 格式为：文件名.文件格式；长度最大为122",
+            "required": true,
+            "type": "string",
+            "maxLength": 122
+          },
+          "attachType": {
+            "description": "附件类型，现仅支持PUBLIC和SECRET",
+            "required": true,
+            "tyep": "string"
+          },
+          "metaData": {
+            "description": "附件metaData, Map<String, String>",
+            "required": false,
+            "type": "Map<String, String>"
+          }
+        }
+  responses:
+    200:
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": {
+                "token": "CXh2YKSbNG5T0VD158yeVHie6-5dMtd0RHc-kmOA:vaFpWIOxE8KzNLGmHJOR04HwZlg=:eyJzY29wZSI6ImNpdHlhbmltYWwiLCJjYWxsYmFja1VybCI6IjExNC4yMTUuODAuMTMxOjgwODAvcWluaXVhdHRhY2giLCJkZWFkbGluZSI6MTQ0NDEzOTQ3OCwiY2FsbGJhY2tCb2R5IjoidXJsXHUwMDNkZmlsZTAwMWY3NDllMy5qcGdcdTAwMjZuYW1lXHUwMDNkZmlsZTAwMS5qcGdcdTAwMjZhdHRhY2hfdHlwZVx1MDAzZGxvYW5fcGF3blx1MDAyNm1ldGFfZGF0YVx1MDAzZG51bGxcdTAwMjZhY2NvdW50SWRcdTAwM2QyIn0=",
+                "key": "file001f749e3.jpg"
+              },
+              "success": true
+            }
+/{id}:
+  description:  |
+    单个附件操作
+    返回json对象中的 url 可直接GET 七牛云会返回所请求附件 有效时长为3600s
+    name 为显示名称
+    type 为附件类型
+    metaData 为该文件的metaData信息
+  get:
+    is: [secured]
+    description: 获取附件
+    queryParameters:
+      action:
+        type: string
+        description: 操作行为，目前支持 无 和 preview
+        example: preview
+        required: false
+      method:
+        type: string
+        description: 预览行为
+        example: imageView2/1/w/200/h/100
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 405,
+                  "url": "http://7xijbo.com1.z0.glb.clouddn.com/论文的进度da9454.jpg?imageView2/1/w/200/h/100&e=1456483752&token=CXh2YKSbNG5T0VD158yeVHie6-5dMtd0RHc-kmOA:oLuVrbPqJiBBgRG7LOkQtubM-kk=",
+                  "name": "论文的进度.jpg",
+                  "size": 121619,
+                  "attachType": {
+                    "code": "SECRET",
+                    "value": "私有附件"
+                  },
+                  "metaData": {
+                    "tag": "loan",
+                    "type": "LOANPAWN_ATTACH"
+                  },
+                  "accountId": 13,
+                  "isDel": false
+                },
+                "success": true
+              }
+      501:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "501",
+                "message": "您没有权限进行此操作",
+                "data": null,
+                "success": false
+              }
+      402:
+        body:
+          application/json:
+            schema: |
+              {
+               "code": "402",
+               "message": "对象不存在",
+               "data": null,
+               "success": false
+              }
+  delete:
+    is: [secured]
+    description: 删除附件
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+      402:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "402",
+                "message": "对象不存在",
+                "data": null,
+                "success": false
+              }
+      501:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "501",
+                "message": "您没有权限进行此操作",
+                "data": null,
+                "success": false
+              }
+      801:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "801",
+                "message": "业务处理失败 no such file or directory",
+                "data": null,
+                "success": false
+              }
+      902:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "902",
+                "message": "数据库处理异常",
+                "data": null,
+                "success": false
+                }
+/qiniuattach:
+  description: 七牛云回调函数，无需调用，测试时仅使用/qiniuattach
+  post:
+    description: 七牛云回调函数，返回结果为POST到upload.qiniu.com的结果
+    body:
+      application/x-www-form-urlencoded:
+        formParameters:
+          url:
+            description: 七牛云文件key
+            required: true
+            type: string
+          name:
+            description: 文件显示名称
+            required: true
+            type: string
+          metaData:
+            description: 文件metaData信息
+            required: true
+            type: string
+          attachType:
+            description: 附件类型
+            required: true
+            type: string
+          accountId:
+            description: 上传用户id
+            required: true
+            type: number
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "key": "pawn018e545b.img",
+                "payload": {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 12,
+                    "url": "pawn018e545b.img",
+                    "name": "pawn01.img",
+                    "attachType": null,
+                    "metaData": {
+                      "type": "img"
+                    },
+                    "accountId": 1
+                  },
+                  "success": true
+                }
+              }

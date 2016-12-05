@@ -1,0 +1,601 @@
+description: 帮助中心API
+/post:
+  post:
+    is: [secured]
+    description: 新增一个主题帖
+    body:
+      application/json:
+        schema: |
+          {
+            "title"     :"如何找回密码",
+            "content"   :"忘记密码，如何找回？"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 9,
+                  "accountId": 1020,
+                  "isSticky": false,
+                  "title": "如何找回密码",
+                  "content": "忘记密码，如何找回？",
+                  "createTime": 1459655514000,
+                  "updateTime": 1459655514000,
+                  "userName": null,
+                  "photoUrl": null,
+                  "replyCount": null,
+                  "isMine": false,
+                  "lastReplyTime": null
+                },
+                "success": true
+              }
+/stickyPosts:
+  get:
+    description: 获取所有置顶主题帖
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 1,
+                    "accountId": 1,
+                    "isSticky": true,
+                    "title": "忘记密码",
+                    "content": null,
+                    "createTime": 1446204979000,
+                    "updateTime": 1446204979000,
+                    "userName": null,
+                    "photoUrl": null,
+                    "replyCount": 1,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 2,
+                    "accountId": 1,
+                    "isSticky": true,
+                    "title": "更新日志",
+                    "content": null,
+                    "createTime": 1446204979000,
+                    "updateTime": 1446204979000,
+                    "userName": null,
+                    "photoUrl": null,
+                    "replyCount": 1,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  }
+                ],
+                "success": true
+              }
+/posts:
+  get:
+    description: 获取所有非置顶主题帖
+    queryParameters:
+      scope:
+        type: string
+        description: all
+      pageNum:
+        type: integer
+        description: 默认为1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 3,
+                    "accountId": 4,
+                    "isSticky": false,
+                    "title": "我们",
+                    "content": null,
+                    "createTime": 1448773786000,
+                    "updateTime": 1448773786000,
+                    "userName": null,
+                    "photoUrl": null,
+                    "replyCount": 1,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 4,
+                    "accountId": 8,
+                    "isSticky": false,
+                    "title": "测试一下",
+                    "content": null,
+                    "createTime": 1449040594000,
+                    "updateTime": 1449040594000,
+                    "userName": null,
+                    "photoUrl": null,
+                    "replyCount": 1,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 5,
+                    "accountId": 1020,
+                    "isSticky": false,
+                    "title": "如何找回密码",
+                    "content": null,
+                    "createTime": 1459651759000,
+                    "updateTime": 1459651759000,
+                    "userName": "欧阳俊鹏",
+                    "photoUrl": null,
+                    "replyCount": 0,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 6,
+                    "accountId": 1020,
+                    "isSticky": false,
+                    "title": "如何找回密码",
+                    "content": null,
+                    "createTime": 1459651769000,
+                    "updateTime": 1459651769000,
+                    "userName": "欧阳俊鹏",
+                    "photoUrl": null,
+                    "replyCount": 0,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 7,
+                    "accountId": 1020,
+                    "isSticky": false,
+                    "title": "如何找回密码",
+                    "content": null,
+                    "createTime": 1459652567000,
+                    "updateTime": 1459652567000,
+                    "userName": "欧阳俊鹏",
+                    "photoUrl": null,
+                    "replyCount": 0,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 8,
+                    "accountId": 1020,
+                    "isSticky": false,
+                    "title": "如何找回密码",
+                    "content": null,
+                    "createTime": 1459654426000,
+                    "updateTime": 1459654426000,
+                    "userName": "欧阳俊鹏",
+                    "photoUrl": null,
+                    "replyCount": 0,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 9,
+                    "accountId": 1020,
+                    "isSticky": false,
+                    "title": "如何找回密码",
+                    "content": null,
+                    "createTime": 1459655514000,
+                    "updateTime": 1459655514000,
+                    "userName": "欧阳俊鹏",
+                    "photoUrl": null,
+                    "replyCount": 0,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  },
+                  {
+                    "id": 10,
+                    "accountId": 1020,
+                    "isSticky": false,
+                    "title": "如何找回密码",
+                    "content": null,
+                    "createTime": 1459655666000,
+                    "updateTime": 1459655666000,
+                    "userName": "欧阳俊鹏",
+                    "photoUrl": null,
+                    "replyCount": 0,
+                    "isMine": false,
+                    "lastReplyTime": null
+                  }
+                ],
+                "success": true
+              }
+/post/{id}:
+  get:
+    description: 获取一个主题帖
+    is: [secured]
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 1,
+                  "accountId": 1,
+                  "isSticky": true,
+                  "title": "忘记密码",
+                  "content": "如何找回密码",
+                  "createTime": 1446204979000,
+                  "updateTime": 1446204979000,
+                  "userName": null,
+                  "photoUrl": null,
+                  "replyCount": 1,
+                  "isMine": false,
+                  "lastReplyTime": null
+                },
+                "success": true
+              }
+  put:
+    description: 更新一个主题帖 （题目 | 内容）
+    is: [secured]
+    body:
+      application/json:
+        schema: |
+          {
+            "title"     :"[已解决]如何找回密码",
+            "content"   :"已解决，谢谢！"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  delete:
+    description: 删除一个主题帖
+    is: [secured]
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+/post/{id}/stick【manager】:
+  put:
+      description: 置顶一个主题帖
+      queryParameters:
+        isSticky:
+          type: boolean
+          description: true为置顶，false为取消置顶
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{}
+                }
+/post/{id}/reply:
+  post:
+      description: 新增一个回复
+      queryParameters:
+        replyToId:
+          type: string
+      body:
+        application/json:
+          schema: |
+            {
+              "content"   :"沙发"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 1,
+                    "postId": 1,
+                    "replyToId": -1,
+                    "accountId": 1,
+                    "content": "沙发",
+                    "createTime": 1449235928000,
+                    "updateTime": 1449235928000,
+                    "photoUrl": null,
+                    "userName": null,
+                    "replysToReply": null,
+                    "isMine": true
+                  },
+                  "success": true
+                }
+
+/post/{id}/replys:
+  get:
+      description: 获取某一主题帖的所有直接回复，并设置回复的回复
+      queryParameters:
+        scope:
+          type: string
+          description: all | list
+        pageNum:
+          type: integer
+          description: 默认为1
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "page_size": 15,
+                  "page_number": 1,
+                  "data":
+                  [
+                    { },
+                    { }
+                  ]
+                }
+
+/reply/{id}:
+  get:
+      description: 获取一个回复
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{
+                      "id"          :"1234",
+                      "postId"      :"5678",
+                      "replyToId"   :"2222",
+                      "acountId"    :"2344",
+                      "createTime"  :"185161712601",
+                      "updateTime"  :"185162324309",
+                      "content"     :"沙发"
+                  }
+                }
+  put:
+    description: 更新一个回复
+    body:
+      application/json:
+        schema: |
+          {
+            "content"   :"板凳"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+  delete:
+    description: 删除一个回复
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/help【manager】:
+  post:
+    description: 新增一个帮助
+    body:
+      application/json:
+        schema: |
+          {
+              "catalogId"   :"231",
+              "isCommon"    :"true",
+              "title"       :"如何贷款",
+              "content"     :"申请流程"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/commonHelps:
+  get:
+    description: 获取常用帮助列表
+    queryParameters:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/helps:
+  get:
+    description: 获取帮助列表
+    queryParameters:
+      scope:
+        type: string
+        description: all | list
+      pageNum:
+        type: integer
+        description: 默认为1
+      catalogId:
+        type: integer
+        description: 类别id
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "page_size": 15,
+                "page_number": 1,
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/help/{id}【part manager】:
+  get:
+      description: 获取一个帮助
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{
+                      "id"          :"1234",
+                      "catalogId"   :"1211",
+                      "catalogName" :"账号问题",
+                      "isCommon"    :"1",
+                      "title"       :"如何贷款",
+                      "content"     :"申请流程",
+                      "create_time" :"12344556533",
+                      "update_time" :"234345446456"
+                  }
+                }
+  put:
+    description: 更新一个帮助
+    body:
+      application/json:
+        schema: |
+          {
+              "catalogId"   :"231",
+              "title"       :"如何贷款",
+              "content"     :"申请流程"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+  delete:
+    description: 删除一个帮助
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/help/{id}/common【manager】:
+  put:
+      description: 将一个帮助设为常用
+      queryParameters:
+        isCommon:
+          type: boolean
+          description: true为常用，false为非常用
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{}
+                }
+/catalogs:
+  get:
+    description: 获取帮助类别列表
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "page_size": 15,
+                "page_number": 1,
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/catalog/{id}:
+  get:
+      description: 获取一个帮助类别
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{
+                      "id"    :"1234",
+                      "name"  :"账号问题"
+                  }
+                }
+/search:
+  get:
+    description: 搜索主题帖 | 回复 | 帮助
+    queryParameters:
+      keyword:
+        type: string
+      scope:
+        type: string
+        description: post | reply | help
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }

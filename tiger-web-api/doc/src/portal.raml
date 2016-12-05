@@ -1,0 +1,40 @@
+description: portal页面配置获取接口
+/ui:
+ get:
+  description: |
+   按位置获取系统portal页面图片配置接口,position 为位置枚举的名字,枚举查看地址如下
+   https://github.com/guoylyy/tiger/tree/master/tiger-common-dal/src/main/java/tiger/common/dal/enums
+  queryParameters:
+   position:
+    type: string
+    description: ROLLING(轮播图片)
+  responses:
+   200:
+    body:
+     application/json:
+      schema: |
+       {
+        "code": "200",
+        "message": "操作成功",
+        "data": [
+        {
+          "id": 1,
+          "attachId": 2,
+          "location": "ROLLING",
+          "title": "轮播1",
+          "url": "萩村鈴30158c.png",
+          "rank": 1,
+          "extParams": {}
+        },
+        {
+          "id": 2,
+          "attachId": 3,
+          "location": "ROLLING",
+          "title": "轮播2",
+          "url": "2b4a0f3.jpg",
+          "rank": 2,
+          "extParams": {}
+        }
+        ],
+        "success": true
+       }

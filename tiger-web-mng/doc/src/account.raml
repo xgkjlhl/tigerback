@@ -1,0 +1,370 @@
+description: 账户管理类API
+/authentication:
+  post:
+    is: [loginSecured]
+    description: 用户登录接口 （已通过第一轮测试）
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                 "code": "200",
+                 "message": "操作成功",
+                 "data":
+                 {
+                   "id": 3,
+                   "createTime": 1443781712000,
+                   "updateTime": 1443781712000,
+                   "companyId": 1,
+                   "userName": "bin",
+                   "gender": null,
+                   "birthday": null,
+                   "icon": null,
+                   "idCard": null,
+                   "businessScope": null,
+                   "address": null,
+                   "status": null,
+                   "extParams": null,
+                   "roles": null,
+                   "mobile": "15216758462"
+                 },
+                 "success": true
+              }
+  delete:
+    description: |
+      用户登出接口
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+
+
+/profile:
+  get:
+    description: 用户查看自己的个人信息
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                 "code": "200",
+                 "message": "操作成功",
+                 "data":
+                 {
+                   "id": 3,
+                   "createTime": 1443781712000,
+                   "updateTime": 1443781712000,
+                   "companyId": 1,
+                   "userName": "bin",
+                   "gender": null,
+                   "birthday": null,
+                   "icon": null,
+                   "idCard": null,
+                   "businessScope": null,
+                   "address": null,
+                   "status": null,
+                   "extParams": null,
+                   "roles": null,
+                   "mobile": "15216758462"
+                 },
+                 "success": true
+              }
+  put:
+    description: 登录用户修改自己个人信息
+    body:
+        application/json:
+          schema: |
+            {"address":"四平路1239号"}
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                {
+                  "id": 3,
+                  "createTime": 1443923200610,
+                  "updateTime": 1443923200610,
+                  "companyId": 0,
+                  "userName": null,
+                  "gender": null,
+                  "birthday": null,
+                  "icon": null,
+                  "idCard": null,
+                  "businessScope": null,
+                  "address": "四平路1239号",
+                  "status": null,
+                  "extParams": null,
+                  "roles": null,
+                  "mobile": null
+                },
+                "success": true
+              }
+/password/sms:
+  get:
+    description: 忘记密码获取短信验证码
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          reset (重置密码)
+      mobile:
+        type: string
+        description: |
+          15216758462 (电话号码)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  post:
+    description: 忘记密码重置密码，提交验证码
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          reset (重置密码)
+    body:
+      application/json:
+        schema: |
+          {
+            "phoneNum":"15216758462",
+            "msgCode":"574464"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+/password:
+  post:
+    description: 忘记密码重置密码，提交验新密码
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          reset (重置密码)
+    body:
+      application/json:
+        schema: |
+          {
+            "mobile":"15216758462",
+            "code":"574464",
+            "password":"123",
+            "confirmPassword":"123"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  put:
+    description: 用户登录后修改密码
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          reset (重置密码)
+    body:
+      application/json:
+        schema: |
+          {
+            "oldPassword":"574464",
+            "password":"123",
+            "confirmPassword":"123"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+/sms:
+  get:
+    description: 用户注册获取验证码 （已通过第一轮测试）
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          register (新用户注册)
+      mobile:
+        type: string
+        description: 手机号码
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  post:
+    description: 用户注册时，提交短信验证码接口
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          register (新用户注册)
+    body:
+        application/json:
+          schema: |
+            {
+              "phoneNum":"15216758462",
+              "msgCode":"284432"
+            }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+/:
+  post:
+    description: 用户注册接口
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          register (新用户注册)
+    body:
+        application/json:
+          schema: |
+            {
+              "password": "11",
+              "mobile": "15216758462",
+              "confirmPassword": "11",
+              "userName": "张彬",
+              "msgCode": "284432"
+            }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+/mobile/{mobile}:
+  get:
+    description: 用户注册，检查手机号码是否已经注册。（已通过第一轮测试）
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": false,
+                "success": true
+              }
+
+/company:
+  get:
+    description: 获取登陆用户的公司信息
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                {
+                  "id": 2,
+                  "createTime": 1443928733000,
+                  "updateTime": 1443928733000,
+                  "name": "无",
+                  "owner": null,
+                  "confirm": null,
+                  "phone": "无",
+                  "address": "无",
+                  "mobile": null,
+                  "lbs": null,
+                  "description": null,
+                  "extParams": null
+                },
+                "success": true
+              }
+  put:
+    description: 登陆用户更新自己所属公司信息
+    body:
+        application/json:
+          schema: |
+            {
+              "name": "dd",
+              "phone": "11",
+              "address": "曹安公路4800"
+            }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                {
+                  "id": 2,
+                  "createTime": 1443928733000,
+                  "updateTime": 1443928733000,
+                  "name": "dd",
+                  "owner": null,
+                  "confirm": null,
+                  "phone": "11",
+                  "address": "曹安公路4800",
+                  "mobile": null,
+                  "lbs": null,
+                  "description": null,
+                  "extParams": null
+                },
+                "success": true
+              }

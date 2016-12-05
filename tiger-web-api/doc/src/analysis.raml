@@ -1,0 +1,135 @@
+/fiscal:
+  description: |
+    财务类API
+  get:
+    description:
+      查询财务类数据
+      （注明：目前还缺少时间这个维度，需要加入@锅老板）
+    queryParameters:
+      beginDate:
+        type: date
+        example: '2015-10-10'
+        required: false
+        description: 如果不输入默认是-90天
+      endDate:
+        type: date
+        example: '2016-10-10'
+        required: false
+      keyId:
+        type: string
+        example: '王五0002'
+        required: false
+        description: 如果不输入的话就是查看所有项目财务
+      businessType:
+        type: string
+        required: true
+        example: LOAN | BORROW
+      outComeTypes:
+        type: string
+        description: 支出类型 'LoanPayItemEnum'
+        example: '1001'
+      inComeTypes:
+        type: string
+        description: 收入类型 'LoanPayItemEnum'
+        example: '1001'
+      loanRecordStatus:
+        type: string
+        description: 兑付情况 'LoanRecordItemStatusEnum'
+        example: HAPPENED | NOT_HAPPENED | BOTH
+      scope:
+        type: string
+        description: 查看方式,summary(按合同查询)|detail(按收支查询) 
+        example: summary | detail
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "amount": 29800.0,
+                  "list": [
+                    {
+                      "id": 7,
+                      "loanRecordId": 2,
+                      "amount": 0.0,
+                      "itemType": {
+                        "code": "1001",
+                        "value": "本金"
+                      },
+                      "order": 1,
+                      "itemModel": "INCOME"
+                    },
+                    {
+                      "id": 24,
+                      "loanRecordId": 6,
+                      "amount": 0.0,
+                      "itemType": {
+                        "code": "1001",
+                        "value": "本金"
+                      },
+                      "order": 1,
+                      "itemModel": "INCOME"
+                    },
+                    {
+                      "id": 38,
+                      "loanRecordId": 10,
+                      "amount": 30000.0,
+                      "itemType": {
+                        "code": "1001",
+                        "value": "本金"
+                      },
+                      "order": 1,
+                      "itemModel": "INCOME"
+                    },
+                    {
+                      "id": 40,
+                      "loanRecordId": 10,
+                      "amount": 200.0,
+                      "itemType": {
+                        "code": "1005",
+                        "value": "履约保证金"
+                      },
+                      "order": 3,
+                      "itemModel": "OUTCOME"
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 4,
+                    "itemsPerPage": 10,
+                    "length": 4,
+                    "offset": 0,
+                    "beginIndex": 1,
+                    "endIndex": 4,
+                    "firstPage": 1,
+                    "pages": 1,
+                    "lastPage": 1,
+                    "previousPage": 1,
+                    "nextPage": 1,
+                    "slider": [
+                      1
+                    ]
+                  }
+                },
+                "paginator": {
+                  "page": 1,
+                  "items": 4,
+                  "itemsPerPage": 10,
+                  "length": 4,
+                  "offset": 0,
+                  "beginIndex": 1,
+                  "endIndex": 4,
+                  "firstPage": 1,
+                  "pages": 1,
+                  "lastPage": 1,
+                  "previousPage": 1,
+                  "nextPage": 1,
+                  "slider": [
+                    1
+                  ]
+                },
+                "success": true
+              }

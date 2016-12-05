@@ -1,0 +1,931 @@
+description: 工作空间管理API
+
+/workspaces:
+  is: [secured]
+  description: 注意：直接访问/workspaces, 无需前缀/workspace
+  get:
+    description: 获取账户工作空间列表
+    responses:
+      200:
+        description: 成功，返回工作空间列表(包括自己的私人空间)
+        body:
+          application/json:
+            schema: |
+              {
+                 "code":"200",
+                 "message":"操作成功",
+                 "data":[
+                    {
+                       "id":6,
+                       "name":"小锅科技贷款公司",
+                       "description":"这里是小锅科技贷款公司",
+                       "ownerId":1015,
+                       "owner":null,
+                       "type":{
+                          "code":"TEAM",
+                          "value":"团队"
+                       },
+                       "extParams":{
+                          "BAD_LOAN_DAY":"90",
+                          "OVER_DUE_DAY":"30"
+                       },
+                       "isVerified":false,
+                       "isDefault(标识是否是默认需要显示的workspace)":false,
+                       "icon":null,
+                       "customerCount":3,
+                       "loanCount":4
+                    }
+                 ],
+                 "success":true
+              }
+
+get:
+  is: [secured]
+  description: 查询当前用户是否能够新建团队工作空间
+  responses:
+    200:
+      description: 成功，用户能够新建团队工作空间
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": true,
+              "success": true
+            }
+    803:
+      description: 成功，用户无法新建团队工作空间
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "803",
+              "message": "你已经无法创建更多的空间",
+              "data": null,
+              "success": false
+            }
+put:
+  is: [secured, workspaceId]
+  description: 更新团队工作空间介绍，需要管理员权限
+  body:
+    application/json:
+      schema: |
+        {
+          "description": "团队介绍， 必填"
+        }
+  responses:
+    200:
+      description: 成功，成功更新团队工作空间介绍
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": {
+                "id": 49,
+                "name": "x搜索xxddx萨达",
+                "description": "描述更新",
+                "ownerId": 1021,
+                "owner": {
+                  "id": 1021,
+                  "userName": "郭老板",
+                  "gender": null,
+                  "birthday": null,
+                  "idCard": null,
+                  "businessScope": "121",
+                  "address": null,
+                  "regionCode": "713435",
+                  "mobile": "18516171260",
+                  "selfIntroduction": null,
+                  "icon": null,
+                  "iconId": null,
+                  "createTime": 1459044769000,
+                  "updateTime": 1459047011000,
+                  "companyDomain": null,
+                  "extParams": null,
+                  "accountWorkspaceDomains": []
+                },
+                "type": {
+                  "code": "TEAM",
+                  "value": "团队"
+                },
+                "extParams": {
+                  "BAD_LOAN_DAY": "90",
+                  "OVER_DUE_DAY": "30"
+                },
+                "isVerified": false,
+                "isDefault": false
+              },
+              "success": true
+            }
+
+post:
+  is: [secured]
+  description: 创建一个团队工作空间
+  body:
+    application/json:
+      schema: |
+        {
+          "name": "团队名称， 必需",
+          "description": "团队介绍， 选填"
+        }
+  responses:
+    200:
+      description: 成功，成功创建团队工作空间
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": {
+                "id": 47,
+                "name": "团队名称， 必需",
+                "description": "团队dd介绍， 选填",
+                "ownerId": 5,
+                "owner": {
+                  "id": 5,
+                  "userName": "郭意亮fds",
+                  "gender": {
+                    "code": "MALE",
+                    "value": "男"
+                  },
+                  "birthday": null,
+                  "idCard": "522601199110290816",
+                  "businessScope": "汽车贷款hahaha",
+                  "address": "曹安公路4800号qqfasdfa",
+                  "regionCode": "150726",
+                  "mobile": "13916081244",
+                  "selfIntroduction": "wozuishuai",
+                  "icon": null,
+                  "iconId": null,
+                  "createTime": 1446213375000,
+                  "updateTime": 1459156507000,
+                  "companyDomain": null,
+                  "extParams": {
+                    "BAD_LOAN_DAY": "90",
+                    "OVER_DUE_DAY": "30"
+                  },
+                  "accountWorkspaceDomains": []
+                },
+                "type": {
+                  "code": "TEAM",
+                  "value": "团队"
+                },
+                "extParams": {
+                  "BAD_LOAN_DAY": "90",
+                  "OVER_DUE_DAY": "30"
+                },
+                "isVerified": false,
+                "isDefault": false
+              },
+              "success": true
+            }
+
+delete:
+  is: [secured, workspaceId]
+  description: 删除团队工作空间，超管权限 <br />
+    解散团队，删除所有数据 <br />
+    默认的私人工作空间不可删除
+  responses:
+    200:
+      description: 成功，成功删除团队工作空间
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": true,
+              "success": true
+            }
+
+
+/{id}:
+  is: [secured]
+  description: 单个工作空间相关<br />
+  get:
+    description: |
+      获取工作空间基本信息<br />
+      如果该空间不存在，或者用户不在该空间则返回402 对象不存在
+    responses:
+      200:
+        description: |
+          成功获取工作空间基本信息
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 75,
+                  "name": "美丽新世界",
+                  "description": "我们好好学习\n\n天天向上\n\n然后一起成长",
+                  "ownerId": 1022,
+                  "owner": {
+                    "id": 1022,
+                    "userName": "称霸世界科技树",
+                    "gender": {
+                      "code": "MALE",
+                      "value": "男"
+                    },
+                    "birthday": null,
+                    "idCard": "513723199006199337",
+                    "businessScope": "称霸世界,妈妈说名字要长才行，这样子我们才能显得实在做正常生意的，而不会让别人发现真实的情况,哈哈哈,我,们",
+                    "address": "天河路",
+                    "regionCode": "310114",
+                    "mobile": "15121029974",
+                    "selfIntroduction": "我的个人简介",
+                    "icon": null,
+                    "iconId": 956,
+                    "createTime": 1459246440000,
+                    "updateTime": 1460603421000,
+                    "companyDomain": null,
+                    "extParams": null,
+                    "accountWorkspaceDomains": [],
+                    "workspaces": null
+                  },
+                  "type": {
+                    "code": "TEAM",
+                    "value": "团队"
+                  },
+                  "extParams": {
+                    "BAD_LOAN_DAY": "90",
+                    "OVER_DUE_DAY": "30"
+                  },
+                  "isVerified": false,
+                  "isDefault": false,
+                  "icon": {
+                    "id": 886,
+                    "url": "http://7xnjli.com1.z0.glb.clouddn.com/000boy_6.png",
+                    "name": "boy_6.png",
+                    "size": 5000,
+                    "attachType": {
+                      "code": "PUBLIC",
+                      "value": "公开附件"
+                    },
+                    "metaData": {
+                      "type": "DEFAULT_ICON"
+                    },
+                    "accountId": -1,
+                    "isDel": false
+                  },
+                  "customerCount": 3,
+                  "loanCount": 3,
+                  "memberCount": 2,
+                  "loanTemplateCount": 1
+                },
+                "success": true
+                }
+      402:
+        description: |
+          该空间不存在，或者用户不在该空间
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "402",
+                "message": "对象不存在",
+                "data": null,
+                "success": false
+              }
+  delete:
+    description: |
+      当前成员推出工作组空间<br />
+      如果非改空间成员，则报 402 -> 对象不存在<br />
+      如果空间为私人工作空间，则报 819 -> 无法对个人工作空间进行该操作<br />
+      如果所有者调用该接口，则报919 -> 团队所有者不能退出团队工作空间
+    responses:
+      204:
+        description: |
+          成功退出该工作空间
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+      402:
+        description: |
+          非该工作组空间成员，或者该工作空间不存在
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "402",
+                "message": "对象不存在",
+                "data": null,
+                "success": false
+              }
+      819:
+        description: |
+          团队所有者不能退出团队工作空间<br/>
+          无法对个人工作空间进行该操作
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "819",
+                "message": "无法对个人工作空间进行该操作 或者 团队所有者不能退出团队工作空间",
+                "data": null,
+                "success": false
+              }
+
+/activities:
+  description: 获取最近工作空间动态, [未完成]
+  get:
+    description: 默认获取最近15条
+    queryParameters:
+      top:
+        type: integer
+        description: 动态数量限制，默认15
+    responses:
+      200:
+        description: 成功，成功获取最近top条工作空间动态
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [],
+                "success": true
+              }
+
+/members:
+  is: [secured, workspaceId]
+  description: 工作空间成员列表
+  get:
+    description: 获取工作空间成员列表
+    queryParameters:
+      operation:
+        type: string
+        required: false
+        description: count 表示计数， 为空表示获取成员列表～
+    responses:
+        202:
+          description: count的返回结果
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": 1,
+                  "success": true
+                }
+        200:
+          description: 成功，成功获取工作空间成员列表
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "account": {
+                        "id": 1012,
+                        "userName": "欧阳俊鹏测试中",
+                        "gender": null,
+                        "birthday": null,
+                        "idCard": null,
+                        "businessScope": null,
+                        "address": null,
+                        "regionCode": null,
+                        "mobile": "15221529016",
+                        "selfIntroduction": null,
+                        "icon": null,
+                        "createTime": 1457161281000,
+                        "updateTime": 1457161281000,
+                        "companyDomain": null,
+                        "extParams": null
+                      },
+                      "roles": [
+                        {
+                          "code": "OWNER",
+                          "value": "所有者"
+                        }
+                      ]
+                    }
+                  ],
+                  "success": true
+                }
+
+/roles:
+  is: [secured]
+  description: 获取团队可用角色列表[未完成]
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "code": "CUSTOMER",
+                    "value": "普通员工"
+                  },
+                  {
+                    "code": "ADMIN",
+                    "value": "管理员"
+                  },
+                  {
+                    "code": "OWNER",
+                    "value": "所有者"
+                  }
+                ],
+                "success": true
+              }
+
+/member:
+  is: [secured, workspaceId]
+  description: 团队工作空间成员管理API[未完成]
+
+  /roles:
+    get:
+      is: [secured, workspaceId]
+      description: |
+        获取用户在团队里的角色列表
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": null,
+                    "workspaceId": 22,
+                    "workspace": {
+                      "id": 22,
+                      "name": "团队名称， 必需",
+                      "description": "团队介绍， 选填",
+                      "ownerId": 5,
+                      "owner": {
+                        "id": 5,
+                        "userName": "菜菜",
+                        "gender": null
+                      },
+                      "type": {
+                        "code": "TEAM",
+                        "value": "团队"
+                      },
+                      "extParams": {
+                        "BAD_LOAN_DAY": "55",
+                        "OVER_DUE_DAY": "30"
+                      },
+                      "isVerified": false,
+                      "isDefault": false
+                    },
+                    "roles": [
+                      {
+                        "code": "OWNER",
+                        "value": "所有者"
+                      }
+                    ],
+                    "permissions": [
+                      {
+                        "code": "VIEW_WORKSPACE",
+                        "value": "查看团队空间"
+                      },
+                      {
+                        "code": "VIEW_WORKSPACE_MEMBER",
+                        "value": "获取团队成员列表"
+                      },
+                      {
+                        "code": "DELETE_WORKSPACE",
+                        "value": "解散团队"
+                      },
+                      {
+                        "code": "DELETE_WORKSPACE_MEMBER",
+                        "value": "移除团队成员"
+                      },
+                      {
+                        "code": "UPDATE_WORKSPACE_INFO",
+                        "value": "更新团队基本信息"
+                      },
+                      {
+                        "code": "UPDATE_WORKSPACE_MEMBER_ROLE",
+                        "value": "更新团队成员角色"
+                      },
+                      {
+                        "code": "UPDATE_WORKSPACE_TRANSFER_OWNER",
+                        "value": "移交团队所有者"
+                      },
+                      {
+                        "code": "UPDATE_WORKSPACE_INVITE_MEMBER",
+                        "value": "邀请团队成员"
+                      },
+                      {
+                        "code": "UPDATE_WORKSPACE_CONFIGURATION",
+                        "value": "修改团队配置"
+                      }
+                    ],
+                    "account": {
+                      "id": 5,
+                      "userName": "菜菜"
+                    },
+                    "accountId": 5
+                  },
+                  "success": true
+                }
+  /{accountId}:
+    description: 团队工作空间成员管理
+    is: [secured, workspaceId]
+    get:
+      description: 获取团队工作空间成员详细信息
+      responses:
+        200:
+          description: 成功，成功获取成员信息<br />
+            其中account为用户信息<br />
+            roles为角色列表<br />
+            joinDate为加入时间
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "account": {
+                      "id": 1022,
+                      "userName": "称霸世界科技树",
+                      "gender": {
+                        "code": "MALE",
+                        "value": "男"
+                      },
+                      "birthday": null,
+                      "idCard": "513723199006199337",
+                      "businessScope": "称霸世界,妈妈说名字要长才行，这样子我们才能显得实在做正常生意的，而不会让别人发现真实的情况,哈哈哈,我,们",
+                      "address": "天河路",
+                      "regionCode": "310114",
+                      "mobile": "15121029974",
+                      "selfIntroduction": "我的个人简介",
+                      "icon": {
+                        "id": 956,
+                        "url": "http://7xnjli.com1.z0.glb.clouddn.com/upaf683b.png",
+                        "name": "up.png",
+                        "size": 23210,
+                        "attachType": {
+                          "code": "PUBLIC",
+                          "value": "公开附件"
+                        },
+                        "metaData": {
+                          "type": "ACCOUNT_ICON"
+                        },
+                        "accountId": 1022,
+                        "isDel": false
+                      },
+                      "createTime": 1459246440000,
+                      "updateTime": 1460603421000,
+                      "companyDomain": {
+                        "id": 45,
+                        "name": null,
+                        "phone": null,
+                        "address": null,
+                        "confirm": null
+                      },
+                      "extParams": {
+                        "BAD_LOAN_DAY": "90",
+                        "OVER_DUE_DAY": "12"
+                      },
+                      "accountWorkspaceDomains": [],
+                      "workspaces": null
+                    },
+                    "roles": [
+                      {
+                        "code": "OWNER",
+                        "value": "所有者"
+                      },
+                      {
+                        "code": "CUSTOMER",
+                        "value": "普通员工"
+                      }
+                    ],
+                    "joinDate": 1456740840000
+                  },
+                  "success": true
+                }
+    put:
+      description: 邀请成员加入团队工作空间<br/>
+        在本站有账号，默认权限为成员
+      responses:
+        200:
+          description: 成功，成功邀请成员加入团队
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+    delete:
+      description: 团队工作空间移除成员
+      responses:
+        200:
+          description: 成功，成功移除成员
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+
+    /role:
+      put:
+        is: [secured, workspaceId]
+        description: 修改团队工作空间成员角色[未完成]<br />
+          目前支持 member(成员), manager(管理员)
+        body:
+          application/json:
+            schema: |
+              {
+                "roles": ["ADMIN"]
+              }
+        responses:
+          200:
+            description: 成功，成功更新成员角色
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": true,
+                    "success": true
+                  }
+  /invitation:
+    description: 获取邀请成员公开链接[未完成]
+    get:
+      is: [secured, workspaceId]
+      description: 获取邀请成员链接，用户通过该链接注册并自动添加为团队工作空间成员<br />
+        在本站无账号，默认权限为成员
+      responses:
+        200:
+          description: 成功，成功获取邀请链接
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": null,
+                    "fromAccountId": 1000,
+                    "fromAccount": null,
+                    "url": "http://www.daiguanwang.com/#/invitation?code=c02564ff-2408-421a-b250-44a7c2383c19",
+                    "key": "c02564ff-2408-421a-b250-44a7c2383c19",
+                    "workspaceId": 23,
+                    "workspace": null,
+                    "expiredTime": 1458927888995
+                  },
+                  "success": true
+                }
+    /info:
+      description: 获取邀请成员信息[未完成]
+      get:
+        is: [secured, workspaceId]
+        description: |
+          获取邀请具体信息
+        queryParameters:
+          code:
+            type: string
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                   "code": "200",
+                   "message": "操作成功",
+                   "data": {
+                     "id": null,
+                     "fromAccountId": 1000,
+                     "fromAccount": {
+                       "id": 1000,
+                       "userName": "郭意亮test",
+                       "gender": {
+                         "code": "MALE",
+                         "value": "男"
+                       }
+                     },
+                     "url": "http://www.daiguanwang.com/#/invitation?code=c02564ff-2408-421a-b250-44a7c2383c19",
+                     "key": "c02564ff-2408-421a-b250-44a7c2383c19",
+                     "workspaceId": 23,
+                     "workspace": {
+                       "id": 23,
+                       "name": "团队名称， 必需",
+                       "description": "团队介绍， 选填",
+                       "ownerId": 1000,
+                       "owner": {
+                         "id": 1000,
+                         "userName": "郭意亮test",
+                         "gender": {
+                           "code": "MALE",
+                           "value": "男"
+                         }
+                       },
+                       "type": {
+                         "code": "TEAM",
+                         "value": "团队"
+                       },
+                       "extParams": {
+                         "BAD_LOAN_DAY": "90",
+                         "OVER_DUE_DAY": "30"
+                       },
+                       "isVerified": false,
+                       "isDefault": false
+                     },
+                     "expiredTime": 1458927888995
+                   },
+                   "success": true
+                   }
+
+    /joinByCode:
+      post:
+        description: |
+          通过邀请码加入（已登录用户)，不需要传workspaceId
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"312862174&*(^&*^"
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code":"200",
+                    "message": "操作成功",
+                    "data":true,
+                    "isSuccess": true
+                  }
+
+    /verification:
+      put:
+        description: |
+          审核[未完成]
+        body:
+          application/json:
+            schema: |
+              {
+                "verifyId": 1,
+                "isPermit": true
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": true,
+                    "success": true
+                  }
+    /verifications:
+      get:
+        is: [secured, workspaceId]
+        description: |
+          获取待审核列表(列表API还没有提供用户account内容)[未完成]
+        queryParameters:
+          scope:
+            type: string
+            required: false
+            example: |
+              =count查看数目
+          pageSize:
+            type: integer
+          pageNum:
+            type: integer
+        responses:
+          200:
+            description: |
+              如果count的话返回数量，如果列表就返回list
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": [
+                      {
+                        "workspaceId": 23,
+                        "workspace": null,
+                        "accountId": 5,
+                        "account": null,
+                        "expiredTime": 1445523742000,
+                        "isVerified": false
+                      }
+                    ],
+                    "paginator": {
+                      "page": 1,
+                      "items": 1,
+                      "itemsPerPage": 10,
+                      "length": 1,
+                      "offset": 0,
+                      "previousPage": 1,
+                      "nextPage": 1,
+                      "slider": [
+                        1
+                      ],
+                      "beginIndex": 1,
+                      "endIndex": 1,
+                      "pages": 1,
+                      "firstPage": 1,
+                      "lastPage": 1
+                    },
+                    "success": true
+                  }
+
+/setting:
+  description: 工作空间设置
+
+  /loan:
+    description: 工作空间贷款相关设置<br />
+      现包括 逾期天数 和 警告天数
+    is: [secured, workspaceId]
+    get:
+      description: 获取工作空间贷款相关设置[未完成]
+      responses:
+        200:
+          description: 成功，成功获取贷款相关设置
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {},
+                  "success": true
+                }
+    put:
+
+      description: 更新工作空间贷款相关设置
+      body:
+        application/json:
+          schema: |
+            {
+              "overDueDay": "30",
+              "badLoanDay": "90"
+            }
+      responses:
+        200:
+          description: 成功，成功获取贷款相关设置
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+
+/transfer/{accountId}:
+  is: [secured, workspaceId]
+  description: 团队工作空间转让<br/>
+    注：私有空间不能转让
+  put:
+    description: 将团队工作空间转让给成员accountId(只能转让给团队成员)
+    responses:
+      200:
+        description: 成功，成功转让团队工作空间
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+      501:
+        description: 失败，未能转让团队工作空间
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "501",
+                "message": "你没有权限执行该操作",
+                "data": null,
+                "success": false
+              }

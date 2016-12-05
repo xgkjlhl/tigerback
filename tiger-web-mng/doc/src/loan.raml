@@ -1,0 +1,1207 @@
+  description: 信贷管理类API,完成对借款和贷款的统一管理
+  /template:
+    /{id}:
+      get:
+        description: 查看贷款模板 （已通过第一轮测试）
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code":"200",
+                    "data":
+                    {
+                        "id":"",
+                        "and so on":"贷款基础字段"
+                    }
+                  }
+      put:
+        description: 更新一个贷款模板 （已通过第一轮测试）
+        body:
+          application/json:
+            schema: |
+              {
+                "type": "HOUSE_PAWN",
+                "payWay": "1001",
+                "startDate": "2010-09-10",
+                "amount": 10000.00,
+                "penaltyRate": 0.01,
+                "interestRate": 0.01,
+                "bondPerform": 2100.00,
+                "costService": 200.00,
+                "costOther": 200.00,
+                "costTemp": 200.00,
+                "payCircle": 2,
+                "payTotalCircle": 3,
+                "businessType": "LOAN"
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code":"200",
+                    "data":
+                    {
+                        "id":"",
+                        "and so on":"贷款基础字段"
+                    }
+                  }
+      delete:
+        description: 删除贷款模板 （已通过第一轮测试）
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code":"200",
+                    "data":null
+                  }
+
+    post:
+      description: |
+        添加一个自定义的贷款模板，该模板用于生成项目 （已通过第一轮测试）
+      body:
+        application/json:
+          schema: |
+            {
+              "type": "HOUSE_PAWN",
+              "payWay": "1001",
+              "startDate": "2010-09-10",
+              "amount": 10000.00,
+              "penaltyRate": 0.01,
+              "interestRate": 0.01,
+              "bondPerform": 2100.00,
+              "costService": 200.00,
+              "costOther": 200.00,
+              "costTemp": 200.00,
+              "payCircle": 2,
+              "payTotalCircle": 3,
+              "businessType": "LOAN"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "data": null
+                }
+
+  /templates:
+    get:
+      description: 列出一系列的贷款模板 （已通过第一轮测试）
+      queryParameters:
+        scope:
+          type: string
+          description: all | list (all列出所有/ list分页列出)
+        pageNum:
+          type: integer
+          description: 页码（空代表1）
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                }
+  post:
+    description: |
+      添加一个贷款项目
+        默认状态：待放款
+        ~ 此处只是添加贷款项目的数据字段
+    body:
+      application/json:
+        schema: |
+          {
+            "type": "HOUSE_PAWN(必填)",
+            "payWay": "1001（必填）",
+            "startDate": "2010-09-10（必填）",
+            "amount": 10000.00,
+            "penaltyRate": 0.01,
+            "interestRate": 0.01,
+            "bondPerform": 2100.00,
+            "costService": 200.00,
+            "costOther": 200.00,
+            "costTemp": 200.00,
+            "costTempDesc":"test1",
+            "costOtherDesc":"test1",
+            "payCircle": 2,
+            "payTotalCircle": 3,
+            "businessType": "LOAN（必填）"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "data": ""
+              }
+  /{id}:
+    get:
+      description: 获取一个贷款项目基本信息
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 2,
+                    "keyId": "zhagnsan001",
+                    "amount": 10000,
+                    "pawnType": "CAR_PAWN",
+                    "payWay": "PRE_INTEREST_END_PRINCIPAL",
+                    "startDate": 1284048000000,
+                    "finishDate": 1299600000000,
+                    "totalMonth": 6,
+                    "payCircle": 2,
+                    "interestRate": 0.01,
+                    "penaltyRate": 0.01,
+                    "bondPerform": 2100,
+                    "costService": 200,
+                    "costOther": 200,
+                    "costTemp": 200,
+                    "state": "IN_DRAFT",
+                    "extParams": {
+                      "costOther": "efg",
+                      "costTemp": "hjk"
+                    },
+                    "createTime": 1443359811000,
+                    "updateTime": 1443359811000
+                  },
+                  "success": true
+                }
+
+    /bill:
+      /modification:
+        description: |
+          贷款异常处理接口 注意：暂时没有完成
+        post:
+          description: |
+            提交账单异常处理(异常处理是对账单进行修正)
+          body:
+            application/json:
+              schema: |
+                {
+                  "amount": 1011.00,
+                  "type": "1010",
+                  "payMode": "OUTCOME",
+                  "remark": "woca",
+                  "payDate": "2015-10-20"
+                }
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: |
+                    {
+                      "code": "200",
+                      "data": true
+                    }
+        /{modificationId}:
+          put:
+            description: |
+              更新一个异常修改记录
+            body:
+              application/json:
+                schema: |
+                  {
+                    "amount": 1011.00,
+                    "type": "1010",
+                    "payMode": "OUTCOME",
+                    "remark": "woca",
+                    "payDate": "2015-10-20"
+                  }
+            responses:
+              200:
+                body:
+                  application/json:
+                    schema: |
+                      {
+                        "code": "200",
+                        "message": "操作成功",
+                        "data": {
+                          "id": 3,
+                          "recordNo": null,
+                          "amount": 410.0,
+                          "deadLine": 1452355200000,
+                          "state": "FINISH",
+                          "loanId": 1,
+                          "actualAmount": 410.0,
+                          "actualDate": 1448812800000,
+                          "actualInterest": 360.0,
+                          "type": "LOAN_BACK",
+                          "theoryAmount": 360.0,
+                          "theoryDeadLine": 1452355200000,
+                          "process": "(3/3)",
+                          "theoryInterest": 360.0,
+                          "recordItemDomains": [
+                            {
+                              "id": 9,
+                              "loanRecordId": 3,
+                              "amount": 0.0,
+                              "itemType": "PRINCIPAL_MONEY",
+                              "order": 1,
+                              "itemModel": "INCOME"
+                            },
+                            {
+                              "id": 10,
+                              "loanRecordId": 3,
+                              "amount": 360.0,
+                              "itemType": "INTEREST",
+                              "order": 2,
+                              "itemModel": "INCOME"
+                            },
+                            {
+                              "id": 16,
+                              "loanRecordId": 3,
+                              "amount": 50.0,
+                              "itemType": "PENALTY_MONEY",
+                              "order": 3,
+                              "itemModel": "INCOME"
+                            }
+                          ],
+                          "order": 3,
+                          "loanPayItemModeEnum": "INCOME"
+                        },
+                        "success": true
+                      }
+          delete:
+            description: |
+              删除一个修改记录
+            responses:
+              200:
+                body:
+                  application/json:
+                    schema: |
+                      {
+                        "code":"200",
+                        "data":true
+                      }
+
+      /{billId}:
+        put:
+          description: |
+            放款
+          queryParameters:
+            operation:
+              type: string
+              description: |
+                = launch (放款，必须是放款账单)
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: |
+                    {
+                      "code":"200",
+                      "data": true
+                    }
+        get:
+          description: |
+            根据实际还款时间计算还款金额
+          queryParameters:
+            operation:
+              type: string
+              description: |
+               =calculate
+            actualPayDate:
+              type: date
+              description : |
+                '2015-10-11'
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: |
+                    {
+                      "code": "200",
+                      "message": "操作成功",
+                      "data": {
+                        "id": 3,
+                        "recordNo": null,
+                        "amount": 410.0,
+                        "deadLine": 1452355200000,
+                        "state": "FINISH",
+                        "loanId": 1,
+                        "actualAmount": 410.0,
+                        "actualDate": 1448812800000,
+                        "actualInterest": 360.0,
+                        "type": "LOAN_BACK",
+                        "theoryAmount": 360.0,
+                        "theoryDeadLine": 1452355200000,
+                        "process": "(3/3)",
+                        "theoryInterest": 360.0,
+                        "recordItemDomains": [
+                          {
+                            "id": 9,
+                            "loanRecordId": 3,
+                            "amount": 0.0,
+                            "itemType": "PRINCIPAL_MONEY",
+                            "order": 1,
+                            "itemModel": "INCOME"
+                          },
+                          {
+                            "id": 10,
+                            "loanRecordId": 3,
+                            "amount": 360.0,
+                            "itemType": "INTEREST",
+                            "order": 2,
+                            "itemModel": "INCOME"
+                          },
+                          {
+                            "id": 16,
+                            "loanRecordId": 3,
+                            "amount": 50.0,
+                            "itemType": "PENALTY_MONEY",
+                            "order": 3,
+                            "itemModel": "INCOME"
+                          }
+                        ],
+                        "order": 3,
+                        "loanPayItemModeEnum": "INCOME"
+                      },
+                      "success": true
+                    }
+
+    /bills:
+      description: |
+        项目账单管理类
+      get:
+        description: 获取项目账单（包括当前账单列表 & 选择合并后的账单）
+        queryParameters:
+          operation:
+            type: string
+            description: |
+              = list (列出当前可以收付的账单列表)
+            required: true
+          billId:
+            type: integer
+            description: |
+              如果选择 merge 就需要传入这个参数
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": [
+                      {
+                        "id": 5,
+                        "recordNo": null,
+                        "amount": -6700.0,
+                        "deadLine": 1284048000000,
+                        "state": "WAIT_LAUNCH",
+                        "loanId": 23,
+                        "actualAmount": null,
+                        "actualDate": null,
+                        "actualInterest": null,
+                        "type": "LOAN_LAUNCH",
+                        "theoryAmount": null,
+                        "theoryDeadLine": 1284048000000,
+                        "theoryInterest": 0.0,
+                        "recordItemDomains": [
+                          {
+                            "loanRecordId": 5,
+                            "amount": 10000.0,
+                            "itemType": null,
+                            "order": 1,
+                            "itemModel": null
+                          },
+                          {
+                            "loanRecordId": 5,
+                            "amount": 2100.0,
+                            "itemType": null,
+                            "order": 2,
+                            "itemModel": null
+                          },
+                          {
+                            "loanRecordId": 5,
+                            "amount": 200.0,
+                            "itemType": null,
+                            "order": 3,
+                            "itemModel": null
+                          },
+                          {
+                            "loanRecordId": 5,
+                            "amount": 200.0,
+                            "itemType": null,
+                            "order": 4,
+                            "itemModel": null
+                          },
+                          {
+                            "loanRecordId": 5,
+                            "amount": 200.0,
+                            "itemType": null,
+                            "order": 5,
+                            "itemModel": null
+                          },
+                          {
+                            "loanRecordId": 5,
+                            "amount": 600.0,
+                            "itemType": null,
+                            "order": 6,
+                            "itemModel": null
+                          }
+                        ],
+                        "order": null,
+                        "loanPayItemModeEnum": "OUTCOME"
+                      }
+                    ],
+                    "success": true
+                  }
+      put:
+        description: |
+          合并账单，返回应还的总账单
+        queryParameters:
+          operation:
+            type: string
+            description: = merge
+        body:
+          application/json:
+            schema: |
+              {
+                "loanId": "1",
+                "interestCalType": "WHOLE_INTEREST",
+                "bills": [
+                  {
+                    "billId": 2,
+                    "actualPayDate": "2015-11-20"
+                  },
+                  {
+                    "billId": 3,
+                    "actualPayDate": "2016-01-15"
+                  },
+                  {
+                    "billId": 4,
+                    "actualPayDate": "2016-03-15"
+                  }
+                ]
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {
+                      "loanId": 1,
+                      "bills": [
+                        {
+                          "id": 2,
+                          "recordNo": null,
+                          "amount": 460.0,
+                          "deadLine": 1447084800000,
+                          "state": "PAY_PROCESS",
+                          "loanId": 1,
+                          "actualAmount": 460.0,
+                          "actualDate": 1447977600000,
+                          "actualInterest": 360.0,
+                          "type": "LOAN_BACK",
+                          "theoryAmount": 360.0,
+                          "theoryDeadLine": 1447084800000,
+                          "process": "(2/3)",
+                          "theoryInterest": 360.0,
+                          "recordItemDomains": [
+                            {
+                              "id": 7,
+                              "loanRecordId": 2,
+                              "amount": 0.0,
+                              "itemType": "PRINCIPAL_MONEY",
+                              "order": 1,
+                              "itemModel": "INCOME"
+                            },
+                            {
+                              "id": 8,
+                              "loanRecordId": 2,
+                              "amount": 360.0,
+                              "itemType": "INTEREST",
+                              "order": 2,
+                              "itemModel": "INCOME"
+                            },
+                            {
+                              "id": 0,
+                              "loanRecordId": 2,
+                              "amount": 100.0,
+                              "itemType": "PENALTY_MONEY",
+                              "order": 3,
+                              "itemModel": "INCOME"
+                            }
+                          ],
+                          "order": 2,
+                          "loanPayItemModeEnum": "INCOME"
+                        }
+                      ],
+                      "amount": 10530.0,
+                      "calTypeEnum": "WHOLE_INTEREST",
+                      "end": true
+                    },
+                    "success": true
+                  }
+      post:
+        description: |
+          归还账单
+        queryParameters:
+          operation:
+            type: string
+            description: =pay
+        body:
+          application/json:
+            schema: |
+              {
+                "loanId": "1",
+                "interestCalType": "WHOLE_INTEREST",
+                "bills": [
+                  {
+                    "billId": 2,
+                    "actualPayDate": "2015-11-20"
+                  },
+                  {
+                    "billId": 3,
+                    "actualPayDate": "2016-01-15"
+                  },
+                  {
+                    "billId": 4,
+                    "actualPayDate": "2016-03-15"
+                  }
+                ]
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code":"200",
+                    "message":"操作成功",
+                    "data":"",
+                    "success": "true"
+                  }
+
+
+    /pawn:
+      description: 贷款抵押物信息（包括附件信息)
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {
+                      "id": 1,
+                      "loanPawnTypeEnum": "CAR_PAWN",
+                      "order": 0,
+                      "remark": "abc",
+                      "loanPawnParamDomains": [
+                        {
+                          "loanPawnId": 1,
+                          "param": "abc",
+                          "value": "bcd",
+                          "description": "abc"
+                        },
+                        {
+                          "loanPawnId": 1,
+                          "param": "efg",
+                          "value": "fgh",
+                          "description": "fgh"
+                        }
+                      ],
+                      "attachDomains": [
+                        {
+                          "id": 1,
+                          "url": "‘/file/abc’",
+                          "name": "abc",
+                          "type": "efg",
+                          "metaData": null
+                        },
+                        {
+                          "id": 2,
+                          "url": "‘/file/bcd’",
+                          "name": "bcd",
+                          "type": "bcd",
+                          "metaData": null
+                        }
+                      ]
+                    },
+                    "success": true
+                  }
+      /{pawnId}:
+        put:
+          description: 关联一个抵押物
+          queryParameters:
+            operation:
+              type: string
+              description: |
+                relate代表关联抵押物
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: |
+                    {
+                      "code": 200
+                    }
+
+    /loaner:
+      description: 获取贷款人和担保人信息(包括附件信息,列表输出)
+      get:
+        description: |
+          获取贷款人信息
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {
+                      "HOLDER": {
+                        "id": 1,
+                        "name": "yuanxun",
+                        "idCard": "23534",
+                        "mobile": "123",
+                        "email": "email",
+                        "qq": "2345",
+                        "wx": "ftage",
+                        "address": "dfag  rh t",
+                        "companyId": 0,
+                        "acceptCms": false,
+                        "show": false,
+                        "accountId": 2,
+                        "type": "HOLDER",
+                        "attaches": [
+                          {
+                            "id": 2,
+                            "url": "‘/file/bcd’",
+                            "name": "bcd",
+                            "type": "bcd",
+                            "metaData": null
+                          },
+                          {
+                            "id": 1,
+                            "url": "‘/file/abc’",
+                            "name": "abc",
+                            "type": "efg",
+                            "metaData": null
+                          }
+                        ]
+                      },
+                      "LOANER": {
+                        "id": 1,
+                        "name": "yuanxun",
+                        "idCard": "23534",
+                        "mobile": "123",
+                        "email": "email",
+                        "qq": "2345",
+                        "wx": "ftage",
+                        "address": "dfag  rh t",
+                        "companyId": 0,
+                        "acceptCms": false,
+                        "show": false,
+                        "accountId": 2,
+                        "type": "LOANER",
+                        "attaches": [
+                          {
+                            "id": 2,
+                            "url": "‘/file/bcd’",
+                            "name": "bcd",
+                            "type": "bcd",
+                            "metaData": null
+                          },
+                          {
+                            "id": 1,
+                            "url": "‘/file/abc’",
+                            "name": "abc",
+                            "type": "efg",
+                            "metaData": null
+                          }
+                        ]
+                      }
+                    },
+                    "success": true
+                  }
+
+    /customer/{customerId}:
+      put:
+        description: "关联一个客户"
+        queryParameters:
+          operation:
+            type: string
+            description: |
+              relate代表关联客户
+          cutstomerType:
+            type: string
+            description: |
+              HOLDER 担保人 | LOANER 贷款人
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": {},
+                    "success": true
+                  }
+
+    /records:
+      get:
+        description: 获取贷款履约记录(包括详情item)
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 1,
+                    "recordNo": 1,
+                    "amount": -6700,
+                    "deadLine": 1284048000000,
+                    "state": "WAIT_LAUNCH",
+                    "loanId": 2,
+                    "actualAmount": null,
+                    "actualDate": null,
+                    "actualInterest": null,
+                    "type": "LOAN_LAUNCH",
+                    "theoryAmount": null,
+                    "theoryDeadLine": null,
+                    "theoryInterest": null,
+                    "recordItemDomains": [
+                      {
+                        "loanRecordId": 1,
+                        "amount": 10000,
+                        "itemType": null,
+                        "order": 1,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 1,
+                        "amount": 2100,
+                        "itemType": null,
+                        "order": 2,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 1,
+                        "amount": 200,
+                        "itemType": null,
+                        "order": 3,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 1,
+                        "amount": 200,
+                        "itemType": null,
+                        "order": 4,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 1,
+                        "amount": 200,
+                        "itemType": null,
+                        "order": 5,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 1,
+                        "amount": 600,
+                        "itemType": null,
+                        "order": 6,
+                        "itemModel": null
+                      }
+                    ],
+                    "order": null,
+                    "loanPayItemModeEnum": "OUTCOME"
+                  },
+                  {
+                    "id": 2,
+                    "recordNo": 2,
+                    "amount": 7700,
+                    "deadLine": 1299600000000,
+                    "state": "PAY_PROCESS",
+                    "loanId": 2,
+                    "actualAmount": null,
+                    "actualDate": null,
+                    "actualInterest": null,
+                    "type": "LOAN_END_BACK",
+                    "theoryAmount": null,
+                    "theoryDeadLine": null,
+                    "theoryInterest": null,
+                    "recordItemDomains": [
+                      {
+                        "loanRecordId": 2,
+                        "amount": 10000,
+                        "itemType": null,
+                        "order": 1,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 2,
+                        "amount": 0,
+                        "itemType": null,
+                        "order": 2,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 2,
+                        "amount": 2100,
+                        "itemType": null,
+                        "order": 3,
+                        "itemModel": null
+                      },
+                      {
+                        "loanRecordId": 2,
+                        "amount": 200,
+                        "itemType": null,
+                        "order": 4,
+                        "itemModel": null
+                      }
+                    ],
+                    "order": null,
+                    "loanPayItemModeEnum": "INCOME"
+                  }
+                ],
+                "success": true
+              }
+
+  /pawn:
+    description: 贷款抵押物操作
+    post:
+      description: 添加抵押物,并关联
+      body:
+        application/json:
+          schema: |
+            {
+              "pawnType": "HOUSE_PAWN",
+              "loanPawnItemForms": [
+                {
+                  "param": "ss",
+                  "value": "xx",
+                  "description": "fdsfsa"
+                }
+              ],
+              "loanPawnAttaches": [
+                {
+                  "attachId": 1,
+                  "type": "img"
+                }
+              ],
+              "remark": "沙发上"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功(返回抵押物id)",
+                  "data": 14,
+                  "success": true
+                }
+    /{pawnId}:
+      put:
+        description: 更新抵押物信息
+        body:
+          application/json:
+            schema: |
+              {
+                "pawnType": "HOUSE_PAWN",
+                "loanPawnItemForms": [
+                  {
+                    "param": "ss",
+                    "value": "xx",
+                    "description": "fdsfsa"
+                  }
+                ],
+                "remark": "沙发上"
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功(返回true or false)",
+                    "data": true,
+                    "success": true
+                  }
+
+  /payItems:
+    post:
+      description: |
+        获取贷款的所有还款列表
+          ~ 一般用于新建贷款的第二步(获取该贷款的还款列表)
+      body:
+        application/json:
+          schema: |
+            {
+              "type": "HOUSE_PAWN",
+              "payWay": "1003",
+              "startDate": "2010-09-10",
+              "amount": 10000.00,
+              "penaltyRate": 0.01,
+              "interestRate": 0.01,
+              "bondPerform": 2100.00,
+              "costService": 200.00,
+              "costOther": 200.00,
+              "costTemp": 200.00,
+              "payCircle": 2,
+              "payTotalCircle": 3,
+              "businessType": "LOAN",
+              "costTempDesc": "test",
+              "costOtherDesc": "test1"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "recordNo": null,
+                      "amount": 7300.0,
+                      "deadLine": 1284076800000,
+                      "state": "WAIT_LAUNCH",
+                      "loanId": null,
+                      "actualAmount": null,
+                      "actualDate": null,
+                      "actualInterest": null,
+                      "type": "LOAN_LAUNCH",
+                      "theoryAmount": 7300.0,
+                      "theoryDeadLine": 1284076800000,
+                      "theoryInterest": 0.0,
+                      "recordItemDomains": [
+                        {
+                          "loanRecordId": null,
+                          "amount": 2100.0,
+                          "itemType": "BOND_PERFORM_MONEY",
+                          "order": 1,
+                          "itemModel": "INCOME"
+                        },
+                        {
+                          "loanRecordId": null,
+                          "amount": 200.0,
+                          "itemType": "COST_SERVICE",
+                          "order": 2,
+                          "itemModel": "INCOME"
+                        },
+                        {
+                          "loanRecordId": null,
+                          "amount": 200.0,
+                          "itemType": "COST_TEMP",
+                          "order": 3,
+                          "itemModel": "INCOME"
+                        },
+                        {
+                          "loanRecordId": null,
+                          "amount": 200.0,
+                          "itemType": "COST_OTHER",
+                          "order": 4,
+                          "itemModel": "INCOME"
+                        }
+                      ],
+                      "order": 1
+                    }
+                  ],
+                  "success": true
+                }
+  /paybacks:
+    description: 应还/应付款项查询(未完成)
+    get:
+      description: |
+        目前只能列出正在还款和待放款的项目
+        获取所有项目的近期还款列表，当天，本月，本周
+      queryParameters:
+        businessType:
+          type: string
+          description: LOAN | BORROW （贷款还是融资)
+        beginDate:
+          type: date
+          description: '2015-09-30'
+        endDate:
+          type: date
+          description: '2015-11-11'
+        keyId:
+          type: string
+          description: '张三0001'
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 12,
+                      "process": null,
+                      "keyId": "王五00006",
+                      "loanId": 30,
+                      "createTime": 1443951871000,
+                      "updateTime": 1443951871000,
+                      "actionType": "LOAN_LAUNCH",
+                      "status": "WAIT_LAUNCH",
+                      "deadLine": 1441814400000,
+                      "amount": -6700.0,
+                      "overdueDay": 0
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 1,
+                    "itemsPerPage": 10,
+                    "length": 1,
+                    "offset": 0,
+                    "previousPage": 1,
+                    "nextPage": 1,
+                    "beginIndex": 1,
+                    "endIndex": 1,
+                    "pages": 1,
+                    "firstPage": 1,
+                    "lastPage": 1,
+                    "slider": [
+                      1
+                    ]
+                  },
+                  "success": true
+                }
+
+  /loans:
+    description: 列表列出所有的贷款对象(注明:url去掉第一个loan)
+    get:
+      description: 项目搜索和列表管理
+      queryParameters:
+        keyId:
+          type: string
+          description: 贷款编号
+        beginDate:
+          type: date
+          description: 查询开始日期[yyyy-MM-dd 2014-09-10], 默认90天前
+        endDate:
+          type: date
+          description: 查询结束日期[yyyy-MM-dd 2016-09-10]
+        loanStatus:
+          type: string
+          description: IN_DRAFT/草稿 WAIT_LAUNCH/待放款 PAY_PROCESS/还款中 CHECK_BLOCK/暂缓中 BAD_LOAN/坏账 OVER_DUE/逾期 FINISH/完成
+        pageSize:
+          type: number
+          description: 页面大小，可选，默认10
+        pageNum:
+          type: number
+          description: 页数，可选，默认1
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": [
+                      {
+                        "id": 1,
+                        "accountId": 2,
+                        "businessType": null,
+                        "type": "HOUSE_PAWN",
+                        "payWay": "CIRCLE_INIT_INTEREST_PRINCIPAL",
+                        "loanStatus": "IN_DRAFT",
+                        "amount": 1000000,
+                        "monthsLimit": null,
+                        "startDate": 1441987200000,
+                        "finishDate": 1441987200000,
+                        "interestRate": 3,
+                        "penaltyRate": 3,
+                        "bondPerform": 234,
+                        "costService": 12545,
+                        "costOther": 1245,
+                        "costTemp": 125256,
+                        "extParams": {
+                          "costOther": "efg",
+                          "costTemp": "hjk"
+                        },
+                        "payCircle": 3,
+                        "payTotalCircle": 12,
+                        "keyId": "zhagnsan001",
+                        "loaner": null,
+                        "holder": null,
+                        "loanPawnDO": null
+                      },
+                      {
+                        "id": 2,
+                        "accountId": 2,
+                        "businessType": null,
+                        "type": "HOUSE_PAWN",
+                        "payWay": "PRE_INTEREST_END_PRINCIPAL",
+                        "loanStatus": "IN_DRAFT",
+                        "amount": 10000,
+                        "monthsLimit": null,
+                        "startDate": 1441814400000,
+                        "finishDate": 1481212800000,
+                        "interestRate": 0.01,
+                        "penaltyRate": 0.01,
+                        "bondPerform": 2100,
+                        "costService": 200,
+                        "costOther": 200,
+                        "costTemp": 200,
+                        "extParams": {
+                          "costOther": "efg",
+                          "costTemp": "hjk"
+                        },
+                        "payCircle": 2,
+                        "payTotalCircle": 3,
+                        "keyId": "zhagnsan001",
+                        "loaner": null,
+                        "holder": null,
+                        "loanPawnDO": null
+                      }
+                    ],
+                    "paginator": {
+                      "page": 1,
+                      "items": 2,
+                      "itemsPerPage": 10,
+                      "pages": 1,
+                      "firstPage": 1,
+                      "lastPage": 1,
+                      "previousPage": 1,
+                      "nextPage": 1,
+                      "slider": [
+                        1
+                      ],
+                      "beginIndex": 1,
+                      "endIndex": 2,
+                      "length": 2,
+                      "offset": 0
+                    },
+                    "success": true
+                  },
+                  "success": true
+                }

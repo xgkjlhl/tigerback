@@ -1,0 +1,17 @@
+.datepicker.dropdown-menu {
+    z-index: 9999 !important;
+}
+
+.alert {
+  margin-bottom: 0;
+}
+
+div.alert {
+  margin-left: 230px;
+}
+
+@media (max-width: 767px) {
+  div.alert {
+    margin-left: 0;
+  }
+}

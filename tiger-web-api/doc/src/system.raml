@@ -1,0 +1,110 @@
+description: 系统配置和参数获取接口
+/dateTime:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": 1443948142574,
+                "success": true
+              }
+/dict/{dictType}:
+  get:
+    description: |
+      获取系统字典表接口,dictType 为枚举的名字,枚举查看地址如下
+      https://github.com/guoylyy/tiger/tree/master/tiger-common-dal/src/main/java/tiger/common/dal/enums
+    queryParameters:
+      scope:
+        type: string
+        description: loan(贷款类) | system(系统类)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "code": "LOAN",
+                    "value": "贷款项目"
+                  },
+                  {
+                    "code": "CUSTOMER",
+                    "value": "客户"
+                  }
+                ],
+                "success": true
+              }
+/systemparams:
+  get:
+    description: |
+      获取系统参数配置
+    queryParameters:
+      type:
+        type: string
+        description: LOAN_CONFIG(贷款参数); SYSTEM_CONFIG(系统参数)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "BAD_LOAN_DAY": "90",
+                  "OVER_DUE_DAY": "30"
+                },
+                "success": true
+              }
+
+/captcha:
+  get:
+    description: |
+      获取图片验证码
+    responses:
+      200:
+        headers:
+          Captcha-Token:
+            description: 当前图片验证码生成token，用于验证captcha
+            type: string
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "image": "your image byte array",
+                  "prefix": "data:image/jpg;base64,"
+                },
+                "success": true
+              }
+/exception:
+  post:
+    description: 提交异常用接口，platform和date是必填字段
+    body:
+      application/json:
+        schema: |
+          {
+              "platform" : "Android",
+              "date" : "2016-03-27",
+              "description" : "chi zao yao wan"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": "{\"date\":1459036800000,\"description\":\"chi zao yao wan\",\"platform\":\"Android\"}",
+                "success": true
+              }

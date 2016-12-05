@@ -1,0 +1,188 @@
+description: 第三方账号
+/url:
+  get:
+    description: |
+      获取第三方授权的地址<br/>
+      获取地址之后直接访问进行授权
+    queryParameters:
+      socialType:
+        type: string
+        required: true
+        description: |
+          WECHAT | QQ
+      bindType:
+        type: string
+        required: true
+        description: |
+          这个参数在social 的state参数中会拼接回来，以便前端可以确认业务
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": "https://open.weixin.qq.com/connect/qrconnect?appid=wx390456c1db0424f7&redirect_uri=http%3A%2F%2Fwww.daiguanwang.com%2Fsocail_auth&response_type=code&scope=SCOPE&state=8369c31f-657f-4f06-b473-d01d791d966c#wechat_redirect",
+                "success": true
+              }
+/binds:
+  get:
+    is: [secured]
+    description: |
+      获取用户绑定的所有第三方账户
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                      {
+                          "id": 10,
+                          "createTime": null,
+                          "updateTime": null,
+                          "accountId": 1023,
+                          "accountType": {
+                              "code": "WECHAT",
+                              "value": "微信"
+                          },
+                          "accountName": "郭意亮",
+                          "accessToken": "OeSKSxW0eoylIeEwP7Qy1UVX-04GyMgA",
+                          "openId": "oqnJ5IFTuGqFwI5E4eRSQ",
+                          "iconUrl": "http://wx.qlogo.cn/mmopen/lrFW1/0",
+                          "iconId": null,
+                          "icon": null,
+                          "hasBind": true,
+                          "unionId": ""
+                      }
+                  ],
+                  "success": true
+              }
+/bind:
+  description: |
+    绑定第三方账户到现有的
+  post:
+    is: [secured]
+    description: |
+      绑定登录用户第三方账户
+    body:
+      application/json:
+        schema: |
+          {
+            "code":"",
+            "state":""
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  /{bindId}:
+    delete:
+      is: [secured]
+      description: |
+        解绑帐号(注明：只有绑定了手机号的帐号才能够解绑，否则将会无法登录)
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+
+/authentication:
+  post:
+    description: |
+      绑定第三方账号,收到了第三方账号的code过后可以调用该接口绑定账号<br/>
+      state需要以[业务]_[随机码开头] 如 WECAHT_FDSA8137891,QQ_31278317<br/>
+      随机码web需要后端获取，调用url接口，app可以自行生成
+    body:
+      application/json:
+        schema: |
+          {
+            "code":"",
+            "state":""
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "canBindAccount": false,
+                "account": {
+                  "id": 1010,
+                  "userName": "郭意亮",
+                  "gender": null,
+                  "birthday": null,
+                  "idCard": null,
+                  "businessScope": null,
+                  "address": null,
+                  "mobile": "oqnJ5wM8cGrGI",
+                  "icon": null,
+                  "createTime": 1456216630000,
+                  "updateTime": 1456216630000,
+                  "companyDomain": null,
+                  "extParams": null
+                },
+                "accountBind": null
+              }
+
+  put:
+    description: |
+      绑定已有的账号<br/>
+      其中 bindId 以上post接口获取的 accountBind 的 id <br/>
+      用户登录接口.<br/>
+      该接口登录需要加密:<br/>
+        password = md5(md5(md5(password)+ username) + sbin.toUpperCase()); <br/>
+        其中目前 sbin 为 '1234'，类型为String, 未来从后台获取
+    body:
+      application/json:
+        schema: |
+          {
+            "bindOrNot": true,
+            "username": "",
+            "password": "",
+            "bindId": 111
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                 "code": "200",
+                 "message": "操作成功",
+                 "data":
+                 {
+                   "id": 3,
+                   "createTime": 1443781712000,
+                   "updateTime": 1443781712000,
+                   "companyId": 1,
+                   "userName": "bin",
+                   "gender": null,
+                   "birthday": null,
+                   "icon": null,
+                   "idCard": null,
+                   "businessScope": null,
+                   "address": null,
+                   "status": null,
+                   "extParams": null,
+                   "roles": null,
+                   "mobile": "15216758462"
+                 },
+                 "success": true
+               }

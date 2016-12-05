@@ -1,0 +1,321 @@
+  description: 站内消息API
+  /messages:
+    description: |
+      多条站内消息操作方法，使用时仅使用/messages
+    get:
+      description: 获取发给该用户的站内消息<br/>
+        默认状态为未归档<br/>
+        消息类型参见MessageTypeEnum<br/>
+        operation=list 表示获取列表<br/>
+        operation=count 表示计数
+      queryParameters:
+        pageSize:
+          type: number
+          description: 页面大小，可选，默认10
+        pageNum:
+          type: number
+          description: 页数，可选，默认1
+        isRead:
+          type: boolean
+          description: 是否已读(true, false)，可选，无默认值
+        isArchived:
+          type: boolean
+          description: 是否已归档(true, flase)，可选，默认false
+        bizType:
+          type: string
+          description: LOAN | CUSTOMER
+        type:
+          type: string
+          description: 参见MessageTypeEnum
+        beginDate:
+          type: date
+          description: 查询开始日期[yyyy-MM-dd 2014-09-10]
+        endDate:
+          type: date
+          description: 查询结束日期[yyyy-MM-dd 2016-09-10]
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 28,
+                      "receiverId": 2,
+                      "senderId": 2,
+                      "senderName": "Li Mi",
+                      "isRead": false,
+                      "isArchived": false,
+                      "isDeleted": false,
+                      "title": "更新了贷款设置",
+                      "description": null,
+                      "content": null,
+                      "bizId": null,
+                      "bizName": null,
+                      "bizType": null,
+                      "type": {
+                        "code": "UPDATE_LOAN_SETTING",
+                        "value": "更新了贷款设置"
+                      },
+                      "typeParams": null,
+                      "createTime": 1460990341000,
+                      "workspaceId": 11,
+                      "workspaceName": "日天战队"
+                    },
+                    {
+                      "id": 184,
+                      "receiverId": 2,
+                      "senderId": 0,
+                      "senderName": null,
+                      "isRead": false,
+                      "isArchived": false,
+                      "isDeleted": false,
+                      "title": "你的贷款合同",
+                      "description": "已经逾期80天了，请尽快催收。",
+                      "content": "",
+                      "bizId": 345,
+                      "bizName": "方程0028",
+                      "bizType": {
+                        "code": "LOAN",
+                        "value": "贷款项目"
+                      },
+                      "type": {
+                        "code": "LOAN_NOTIFICATION",
+                        "value": "贷款提醒"
+                      },
+                      "typeParams": null,
+                      "createTime": 1460425320000,
+                      "workspaceId": 11,
+                      "workspaceName": "日天战队"
+                    },
+                    {
+                      "id": 1,
+                      "receiverId": 2,
+                      "senderId": 2,
+                      "senderName": "Li Mi",
+                      "isRead": false,
+                      "isArchived": false,
+                      "isDeleted": false,
+                      "title": "录入了新的贷款合同",
+                      "description": null,
+                      "content": null,
+                      "bizId": 628,
+                      "bizName": "1110054",
+                      "bizType": {
+                        "code": "LOAN",
+                        "value": "贷款项目"
+                      },
+                      "type": {
+                        "code": "LOAN_CREATE",
+                        "value": "录入了新的贷款合同"
+                      },
+                      "typeParams": null,
+                      "createTime": 1460424676000,
+                      "workspaceId": 11,
+                      "workspaceName": "日天战队"
+                    },
+                    {
+                      "id": 228,
+                      "receiverId": 2,
+                      "senderId": 2,
+                      "senderName": "Li Mi",
+                      "isRead": false,
+                      "isArchived": false,
+                      "isDeleted": false,
+                      "title": "新增了客户",
+                      "description": null,
+                      "content": null,
+                      "bizId": 295,
+                      "bizName": "aaa",
+                      "bizType": {
+                        "code": "CUSTOMER",
+                        "value": "客户"
+                      },
+                      "type": {
+                        "code": "ADD_CUSTOMER",
+                        "value": "新增了客户"
+                      },
+                      "typeParams": null,
+                      "createTime": 1460425490000,
+                      "workspaceId": 11,
+                      "workspaceName": "日天战队"
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 4,
+                    "itemsPerPage": 10,
+                    "pages": 1,
+                    "firstPage": 1,
+                    "lastPage": 1,
+                    "previousPage": 1,
+                    "nextPage": 1,
+                    "slider": [
+                      1
+                    ],
+                    "beginIndex": 1,
+                    "endIndex": 4,
+                    "length": 4,
+                    "offset": 0
+                  },
+                  "success": true
+                }
+    put:
+      description: 更新多条站内消息的状态<br/>
+        ids表示要操作的对象编号
+      body:
+        application/json:
+          schema: |
+            {
+              "ids": [11661, 11580],
+              "isRead": true,
+              "isArchived": true
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+
+  /{id}:
+    get:
+      description: 查看站内消息；如果bizType为SYSTEM，可直接获取消息详情；其他情况需要做相应的业务处理；具体类型参见MessageBizTypeEnum
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 18,
+                    "receiverId": 1001,
+                    "senderId": 0,
+                    "isRead": true,
+                    "isArchived": false,
+                    "isDeleted": false,
+                    "title": "编号为 张三丰0001 的第 (2/12) 期期间收款于今天（2015-11-19）逾期了，请及时处理",
+                    "description": "逾期提醒",
+                    "content": null,
+                    "bizId": 160,
+                    "bizType": {
+                      "code": "LOAN_NOTIFICATION",
+                      "value": "贷款提醒"
+                    },
+                    "createTime": 1447918802000
+                  },
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+        402:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "402",
+                  "message": "对象不存在",
+                  "data": null,
+                  "success": false
+                }
+    put:
+      description: 更新站内消息状态
+      body:
+        application/json:
+          schema: |
+            {
+              "isRead": true,
+              "isArchived": true
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+        402:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "402",
+                  "message": "对象不存在",
+                  "data": null,
+                  "success": false
+                }
+    delete:
+      description: 删除站内消息 -- 假删除
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+        402:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "402",
+                  "message": "对象不存在",
+                  "data": null,
+                  "success": false
+                }

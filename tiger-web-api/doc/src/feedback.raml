@@ -1,0 +1,33 @@
+description: 用户反馈管理类API
+post:
+  is: [secured]
+  description: 创建用户反馈
+  body:
+    application/json:
+      schema: |
+        {
+          "content": "测试， 测试， <a href='/time'>这是个测试</a>",
+          "attachs": [
+              {"attachId": 405},
+              {"attachId": 369}
+          ]
+        }
+  responses:
+    200:
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": {
+                "id": 2,
+                "accountId": 13,
+                "title": null,
+                "email": null,
+                "mobile": null,
+                "content": "测试， 测试， <a href='/time'>这是个测试</a>",
+                "attaches": null
+              },
+              "success": true
+            }

@@ -1,0 +1,901 @@
+description: 账户管理类API
+post:
+  description: 用户注册接口
+  queryParameters:
+    operation:
+      type: string
+      description: |
+        register (新用户注册)
+  body:
+      application/json:
+        schema: |
+          {
+            "password": "11(md5一次)",
+            "mobile": "15216758462",
+            "confirmPassword": "11(md5一次)",
+            "userName": "张彬",
+            "msgCode": "284432",
+            "invitationCode(团队邀请码，静默传)": "32141241"
+          }
+  responses:
+    200:
+      body:
+        application/json:
+          schema: |
+            {
+              "code": "200",
+              "message": "操作成功",
+              "data": true,
+              "success": true
+            }
+/{id}:
+  get:
+    is: [secured]
+    description: |
+      获取编号为id的用户信息
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 3,
+                  "userName": "赵日天",
+                  "gender": {
+                    "code": "MALE",
+                    "value": "男"
+                  },
+                  "birthday": null,
+                  "idCard": "430405199207112558",
+                  "businessScope": "放高利贷，暴力收债",
+                  "address": "狼牙区飞虎路断罪小学",
+                  "regionCode": null,
+                  "mobile": "18801790700",
+                  "selfIntroduction": null,
+                  "icon": {
+                    "id": 144,
+                    "url": "http://7xnjli.com1.z0.glb.clouddn.com/2be3a60.jpg",
+                    "name": "2.jpg",
+                    "size": 74225,
+                    "attachType": {
+                      "code": "PUBLIC",
+                      "value": "公开附件"
+                    },
+                    "metaData": {
+                      "type": "ACCOUNT_ICON"
+                    },
+                    "accountId": 3,
+                    "isDel": false
+                  },
+                  "iconId": 144,
+                  "createTime": 1446205174000,
+                  "updateTime": 1447245072000,
+                  "companyDomain": {
+                    "id": 3,
+                    "name": "滴滴打人",
+                    "phone": "021-71234444",
+                    "address": "狼牙区飞虎路断罪小学",
+                    "confirm": null
+                  },
+                  "extParams": {
+                    "BAD_LOAN_DAY": "90",
+                    "OVER_DUE_DAY": "30"
+                  },
+                    "accountWorkspaceDomains": []
+                  },
+                  "success": true
+                }
+      402:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "402",
+                "message": "对象不存在",
+                "data": null,
+                "success": false
+              }
+
+
+/authentication:
+  post:
+    is: [loginSecured]
+    description: |
+      用户登录接口.<br>
+      该接口登录需要加密:<br>
+        X-Password = md5(md5(md5(X-Password)+ X-Username) + sbin.toUpperCase()); <br>
+        其中目前 sbin 为 '1234'，类型为String, 未来从后台获取
+    queryParameters:
+      expireDay:
+        type: integer
+        required: false
+        description: |
+          token过期天数，没有则默认为1
+      invitationCode:
+        type: string
+        required: false
+        description: |
+          团队邀请码，传了的话会自动提交一个团队加入申请
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"操作成功",
+                "data":{
+                  "id":1022,
+                  "userName":"称霸世界科技树",
+                  "gender":{
+                    "code":"MALE",
+                    "value":"男"
+                  },
+                  "birthday":null,
+                  "idCard":"513723199006199337",
+                  "businessScope":"称霸世界",
+                  "address":"天河路",
+                  "regionCode":"310114",
+                  "mobile":"15121029974",
+                  "selfIntroduction":"我的个人简介",
+                  "icon":{
+                    "id":914,
+                    "url":"http://7xnjli.com1.z0.glb.clouddn.com/downe00ba9.jpg",
+                    "name":"down.jpg",
+                    "size":25201,
+                    "attachType":{
+                      "code":"PUBLIC",
+                      "value":"公开附件"
+                    },
+                    "metaData":{
+                      "type":"ACCOUNT_ICON"
+                    },
+                    "accountId":1022,
+                    "isDel":false
+                  },
+                  "iconId":914,
+                  "createTime":1459246440000,
+                  "updateTime":1459497720000,
+                  "companyDomain":{
+                    "id":45,
+                    "name":null,
+                    "phone":null,
+                    "address":null,
+                    "confirm":null
+                  },
+                  "extParams":{
+                    "BAD_LOAN_DAY":"90",
+                    "OVER_DUE_DAY":"30"
+                  },
+                  "accountWorkspaceDomains":[
+
+                  ],
+                  "workspaces":[
+                    {
+                      "id":40,
+                      "name":"小锅科技贷款有限公司",
+                      "description":"小锅科技贷款有限公司",
+                      "ownerId":1021,
+                      "owner":null,
+                      "type":{
+                        "code":"TEAM",
+                        "value":"团队"
+                      },
+                      "extParams":{
+                        "BAD_LOAN_DAY":"90",
+                        "OVER_DUE_DAY":"12"
+                      },
+                      "isVerified":false,
+                      "isDefault":false
+                    },
+                    {
+                      "id":41,
+                      "name":"个人工作空间",
+                      "description":null,
+                      "ownerId":1022,
+                      "owner":null,
+                      "type":{
+                        "code":"PERSONAL",
+                        "value":"个人"
+                      },
+                      "extParams":{
+                        "BAD_LOAN_DAY":"90",
+                        "OVER_DUE_DAY":"30"
+                      },
+                      "isVerified":true,
+                      "isDefault":true
+                    }
+                  ]
+                },
+                "success":true
+              }
+  delete:
+    description: |
+      用户登出接口
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  get:
+    description: 验证token时候有效
+      如果则效这返回true
+      无效则返回false
+    queryParameters:
+      mobile:
+        type: string
+        description: |
+          手机号码
+      token:
+        type: string
+        description: |
+          要验证的token
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+             {
+               "code": "200",
+               "message": "操作成功",
+               "data": true,
+               "success": true
+             }
+
+/icon/{attachId}:
+  put:
+    description: 用户更新头像
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+             {
+               "code": "200",
+               "message": "操作成功",
+               "data": true,
+               "success": true
+             }
+
+/profile:
+  is: [secured]
+  get:
+    description: 用户查看自己的个人信息
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 1012,
+                  "userName": "欧阳俊鹏测试中",
+                  "gender": null,
+                  "birthday": null,
+                  "idCard": null,
+                  "businessScope": null,
+                  "address": null,
+                  "regionCode": null,
+                  "mobile": "15221529016",
+                  "selfIntroduction": null,
+                  "icon": null,
+                  "createTime": 1457161281000,
+                  "updateTime": 1457161281000,
+                  "companyDomain": {
+                    "id": 35,
+                    "name": null,
+                    "phone": null,
+                    "address": null,
+                    "confirm": null
+                  },
+                  "extParams": {
+                    "BAD_LOAN_DAY": "90",
+                    "OVER_DUE_DAY": "30"
+                  }
+                },
+                "success": true
+              }
+  put:
+    description: |
+      登录用户修改自己个人信息
+    body:
+        application/json:
+          schema: |
+            {
+              "userName": "郭意亮f",
+              "gender": "MALE",
+              "birthday": null,
+              "idCard": "522601199110290816",
+              "businessScope": "汽车贷款hahaha",
+              "address": "曹安公路4800号qqfasdfa",
+              "regionCode": 150726,
+              "selfIntroduction":"wozuishuai"
+            }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                {
+                  "id": 3,
+                  "createTime": 1443923200610,
+                  "updateTime": 1443923200610,
+                  "companyId": 0,
+                  "userName": null,
+                  "gender": null,
+                  "birthday": null,
+                  "icon": null,
+                  "idCard": null,
+                  "businessScope": null,
+                  "address": "四平路1239号",
+                  "regionCode": 150726,
+                  "status": null,
+                  "extParams": null,
+                  "roles": null,
+                  "mobile": null,
+                  "selfIntroduction": "null"
+                },
+                "success": true
+              }
+  /setting:
+    put:
+      description: |
+        用户贷款设置修改，<br />
+        overDueDay与badLoanDay均不能为空,<br />
+        且overDueDay应小于或等于badLoanDay,<br />
+        overDueDay的范围为[0,60],<br/>
+        badLoanDay的范围为[0,180]
+      body:
+        application/json:
+          schema: |
+            {
+              "overDueDay": "30",
+              "badLoanDay": "90"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 5,
+                    "userName": "菜菜",
+                    "gender": null,
+                    "birthday": null,
+                    "idCard": null,
+                    "businessScope": "",
+                    "address": "",
+                    "regionCode": null,
+                    "mobile": "13916081244",
+                    "selfIntroduction": null,
+                    "icon": null,
+                    "iconId": null,
+                    "createTime": 1446213375000,
+                    "updateTime": 1459135159000,
+                    "companyDomain": null,
+                    "extParams": {
+                      "BAD_LOAN_DAY": "90",
+                      "OVER_DUE_DAY": "30"
+                    },
+                    "accountWorkspaceDomains": []
+                  },
+                  "success": true
+                }
+  /region:
+    get:
+      description: 根据ip信息获取账户地区信息<br />
+        默认为 上海 310000
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 857,
+                    "code": "310000",
+                    "name": "上海市",
+                    "fullName": "上海市",
+                    "children": [],
+                    "qrCodes": []
+                  },
+                  "success": true
+                }
+
+/password:
+  post:
+    description:  |
+      忘记密码重置密码，提交验新密码<br>
+      提交的密码需要<br>
+        password = md5(password)
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          reset (重置密码)
+    body:
+      application/json:
+        schema: |
+          {
+            "mobile":"15216758462",
+            "code":"574464",
+            "password":"123"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  put:
+    description:  |
+      用户登录后修改密码
+      提交的密码需要<br>
+        password = md5(password)
+    body:
+      application/json:
+        schema: |
+          {
+            "oldPassword":"574464",
+            "password":"123"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+  /sms:
+    get:
+      description: |
+        忘记密码获取短信验证码<br/>
+        现在限制为每天仅支持给同一手机号码发送5条验证码短信
+      queryParameters:
+        operation:
+          type: string
+          description: |
+            reset (重置密码)
+        mobile:
+          type: string
+          description: |
+            15216758462 (电话号码)
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+        803:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "803",
+                  "message": "您今日重置密码验证码短信额度已经用光,请明日再次尝试",
+                  "data": null,
+                  "success": false
+                }
+    post:
+      description: 忘记密码重置密码，提交验证码
+      queryParameters:
+        operation:
+          type: string
+          description: |
+            reset (重置密码)
+      body:
+        application/json:
+          schema: |
+            {
+              "phoneNum":"15216758462",
+              "msgCode":"574464"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+/sms:
+  get:
+    description: |
+      用户注册获取验证码 （已通过第一轮测试）<br/>
+      现在限制为每天仅支持给同一手机号码发送5条验证码短信
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          register (新用户注册)
+      mobile:
+        type: string
+        description: 手机号码
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+      803:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "803",
+                "message": "您今日绑定新手机号注册验证码短信额度已经用光,请明日再次尝试",
+                "data": null,
+                "success": false
+              }
+  post:
+    description: 用户注册时，提交短信验证码接口
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          register (新用户注册)
+    body:
+        application/json:
+          schema: |
+            {
+              "phoneNum":"15216758462",
+              "msgCode":"284432"
+            }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+
+/mobile:
+  put:
+    is: [secured]
+    description: |
+      修改用户绑定手机
+    body:
+      application/json:
+        schema: |
+          {
+            "phoneNum": "15121029974 (手机号码，不能为空)",
+            "message": "201408 (短信验证码，不能为空)",
+            "password": "password (密码，不能为空)"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }
+
+  /{mobile}:
+    get:
+      description: |
+        用户注册，检查手机号码是否已经注册。（已通过第一轮测试）
+        1、 scope=profle: 通过手机号查询用户
+        2、 不跟scope就是返回true or false
+      queryParameters:
+        scope:
+          type: string
+          required: false
+          example: |
+            scope = profile | 不输入任何scope
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": false,
+                  "success": true
+                }
+
+/company:
+  get:
+    description: 获取登陆用户的公司信息
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+              "code": "200",
+              "message": "操作成功",
+              "data": {
+                "id": 5,
+                "name": "hhh",
+                "phone": null,
+                "address": null,
+                "confirm": null
+              },
+              "success": true
+              }
+  put:
+    description: 登陆用户更新自己所属公司信息
+    body:
+        application/json:
+          schema: |
+            {
+              "name": "dd",
+              "phone": "11",
+              "address": "曹安公路4800",
+              "regionCode": 150726
+            }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data":
+                {
+                  "id": 2,
+                  "createTime": 1443928733000,
+                  "updateTime": 1443928733000,
+                  "name": "dd",
+                  "owner": null,
+                  "confirm": null,
+                  "phone": "11",
+                  "address": "曹安公路4800",
+                  "regionCode": 150726,
+                  "mobile": null,
+                  "lbs": null,
+                  "description": null,
+                  "extParams": null
+                },
+                "success": true
+              }
+
+/invite:
+  get:
+    is: [secured]
+    description: 获取用户当前已经生成的邀请码列表，如果用户没有邀请码则返回的json中data为null
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 21,
+                    "code": "eotnbh49",
+                    "type": {
+                      "code": "REGISTER",
+                      "value": "注册邀请码"
+                    },
+                    "isExpired": false,
+                    "accountId": null,
+                    "inviterId": 2,
+                    "createTime": 1446313530000,
+                    "updateTime": 1446313530000
+                  },
+                  {
+                    "id": 22,
+                    "code": "eovbpwsl",
+                    "type": {
+                      "code": "REGISTER",
+                      "value": "注册邀请码"
+                    },
+                    "isExpired": false,
+                    "accountId": null,
+                    "inviterId": 2,
+                    "createTime": 1446313596000,
+                    "updateTime": 1446313596000
+                  },
+                  {
+                    "id": 24,
+                    "code": "eoxcnwa9",
+                    "type": {
+                      "code": "REGISTER",
+                      "value": "注册邀请码"
+                    },
+                    "isExpired": false,
+                    "accountId": null,
+                    "inviterId": 2,
+                    "createTime": 1446313664000,
+                    "updateTime": 1446313664000
+                  },
+                  {
+                    "id": 25,
+                    "code": "eoxqnal7",
+                    "type": {
+                      "code": "REGISTER",
+                      "value": "注册邀请码"
+                    },
+                    "isExpired": false,
+                    "accountId": null,
+                    "inviterId": 2,
+                    "createTime": 1446313668000,
+                    "updateTime": 1446313668000
+                  },
+                  {
+                    "id": 26,
+                    "code": "eo9gsb72",
+                    "type": {
+                      "code": "REGISTER",
+                      "value": "注册邀请码"
+                    },
+                    "isExpired": false,
+                    "accountId": null,
+                    "inviterId": 2,
+                    "createTime": 1446313670000,
+                    "updateTime": 1446313670000
+                  }
+                ],
+                "success": true
+              }
+  put:
+    is: [secured]
+    description: 为用户生成一个新的邀请码
+    queryParameters:
+      operation:
+        type: string
+        description: |
+          REGISTER (注册邀请码)
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 0,
+                  "code": "eo9gsb72",
+                  "type": {
+                    "code": "REGISTER",
+                    "value": "注册邀请码"
+                  },
+                  "isExpired": false,
+                  "accountId": null,
+                  "inviterId": 2,
+                  "createTime": null,
+                  "updateTime": null
+                },
+                "success": true
+              }
+      803:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "803",
+                "message": "业务请求次数过多",
+                "data": "您生成的邀请码已达上限",
+                "success": false
+              }
+
+/setting/notification:
+  description: 个人消息推送相关设置
+  is: [secured]
+  get:
+    description: 获取个人消息推送设置
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 1,
+                    "bizType": {
+                      "code": "ACCOUNT",
+                      "value": "账户"
+                    },
+                    "settingType": {
+                      "code": "NOTIFICATION_PUSH",
+                      "value": "消息推送"
+                    },
+                    "settingValue": "false"
+                  },
+                  {
+                    "id": 2,
+                    "bizType": {
+                      "code": "ACCOUNT",
+                      "value": "账户"
+                    },
+                    "settingType": {
+                      "code": "PAY_BACK_NOTIFICATION",
+                      "value": "应收款提醒"
+                    },
+                    "settingValue": "true"
+                  },
+                  {
+                    "id": 3,
+                    "bizType": {
+                      "code": "ACCOUNT",
+                      "value": "账户"
+                    },
+                    "settingType": {
+                      "code": "OVERDUE_NOTIFICATION",
+                      "value": "逾期提醒"
+                    },
+                    "settingValue": "false"
+                  }
+                ],
+                "success": true
+              }
+  put:
+    description: 更新个人消息推送设置<br />
+      settingType为设置的类型，现在支持PAY_BACK_NOTIFICATION(应收款提醒)， OVERDUE_NOTIFICATION(逾期提醒), NOTIFICATION_PUSH(消息推送)
+    body:
+      application/json:
+        schema: |
+          {
+            "settingType": "PAY_BACK_NOTIFICATION",
+            "value": true
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": true,
+                "success": true
+              }

@@ -1,0 +1,195 @@
+  description: 站内消息API
+  /messages:
+    description: 获取所有站内消息，默认状态为未归档（注：使用时仅使用/messages）
+    get:
+      description: 获取发给该用户的站内消息
+      queryParameters:
+        pageSize:
+          type: number
+          description: 页面大小，可选，默认10
+        pageNum:
+          type: number
+          description: 页数，可选，默认1
+        isRead:
+          type: boolean
+          description: 是否已读(true, false)，可选，无默认值
+        isArchived:
+          type: boolean
+          description: 是否已归档(true, flase)，可选，默认false
+        beginDate:
+          type: date
+          description: 查询开始日期[yyyy-MM-dd 2014-09-10], 默认90天前
+        endDate:
+          type: date
+          description: 查询结束日期[yyyy-MM-dd 2016-09-10],
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 1,
+                      "receiverId": 2,
+                      "senderId": 1,
+                      "isRead": 1,
+                      "isArchived": 0,
+                      "isDeleted": 0,
+                      "content": "test",
+                      "bizId": "0",
+                      "bizType": "none",
+                      "createTime": 1442066077000
+                    },
+                    {
+                      "id": 3,
+                      "receiverId": 2,
+                      "senderId": 1,
+                      "isRead": 0,
+                      "isArchived": 0,
+                      "isDeleted": 0,
+                      "content": "test",
+                      "bizId": "0",
+                      "bizType": "none",
+                      "createTime": 1442066077000
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 2,
+                    "itemsPerPage": 10,
+                    "pages": 1,
+                    "firstPage": 1,
+                    "lastPage": 1,
+                    "previousPage": 1,
+                    "nextPage": 1,
+                    "slider": [
+                      1
+                    ],
+                    "beginIndex": 1,
+                    "endIndex": 2,
+                    "length": 2,
+                    "offset": 0
+                  },
+                    "success": true
+                  }
+  /{id}:
+    get:
+      description: 查看站内消息
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 1,
+                    "receiverId": 2,
+                    "senderId": 1,
+                    "isRead": 1,
+                    "isArchived": 1,
+                    "isDeleted": 0,
+                    "content": "test",
+                    "bizId": "0",
+                    "bizType": "none",
+                    "createTime": 1442066077000
+                  },
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+        402:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "402",
+                  "message": "对象不存在",
+                  "data": null,
+                  "success": false
+                }
+    put:
+      description: 更新站内消息状态
+      body:
+        application/json:
+          schema: |
+            {
+              "is_read": true,
+              "is_archived": true
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+        402:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "402",
+                  "message": "对象不存在",
+                  "data": null,
+                  "success": false
+                }
+    delete:
+      description: 删除站内消息 -- 假删除
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+        501:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "501",
+                  "message": "您没有权限进行此操作",
+                  "data": null,
+                  "success": false
+                }
+        402:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "402",
+                  "message": "对象不存在",
+                  "data": null,
+                  "success": false
+                }

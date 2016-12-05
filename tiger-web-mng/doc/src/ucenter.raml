@@ -1,0 +1,393 @@
+description: 帮助中心API
+/post:
+  post:
+    description: 新增一个主题帖
+    body:
+      application/json:
+        schema: |
+          {
+            "title"     :"如何找回密码",
+            "content"   :"忘记密码，如何找回？"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/stickyPosts:
+  get:
+    description: 获取置顶主题帖列表
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/posts:
+  get:
+    description: 获取非置顶主题帖列表
+    queryParameters:
+      scope:
+        type: string
+        description: all | list
+      pageNum:
+        type: integer
+        description: 默认为1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "page_size": 15,
+                "page_number": 1,
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/post/{id}:
+  get:
+    description: 获取一个主题帖
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{
+                    "id"          :"1234",
+                    "account_id"  :"5678",
+                    "create_time" :"185161712601",
+                    "update_time" :"185162324309",
+                    "isStick"    :"1",
+                    "title"       :"如何找回密码",
+                    "content"     :"忘记密码，如何找回？"
+                }
+              }
+  put:
+    description: 更新一个主题帖
+    body:
+      application/json:
+        schema: |
+          {
+            "title"     :"[已解决]如何找回密码",
+            "content"   :"已解决，谢谢！"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+  delete:
+    description: 删除一个主题帖
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/post/{id}/stick:
+  put:
+      description: 置顶一个主题帖
+      queryParameters:
+        isSticky:
+          type: boolean
+          description: true为置顶，false为取消置顶
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{}
+                }
+/post/{id}/reply:
+  post:
+      description: 新增一个回复
+      queryParameters:
+        replyToId:
+          type: string
+      body:
+        application/json:
+          schema: |
+            {
+              "content"   :"沙发"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{}
+                }
+
+/post/{id}/replys:
+  get:
+      description: 获取某一主题帖的回复列表
+      queryParameters:
+        scope:
+          type: string
+          description: all | list
+        pageNum:
+          type: integer
+          description: 默认为1
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "page_size": 15,
+                  "page_number": 1,
+                  "data":
+                  [
+                    { },
+                    { }
+                  ]
+                }
+
+/reply/{id}:
+  get:
+      description: 获取一个回复
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{
+                      "id"          :"1234",
+                      "postId"     :"5678",
+                      "replyToId" :"2222",
+                      "acountId"   :"2344",
+                      "createTime" :"185161712601",
+                      "updateTime" :"185162324309",
+                      "content"     :"沙发"
+                  }
+                }
+  put:
+    description: 更新一个回复
+    body:
+      application/json:
+        schema: |
+          {
+            "content"   :"板凳"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+  delete:
+    description: 删除一个回复
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/help:
+  post:
+    description: 新增一个帮助
+    body:
+      application/json:
+        schema: |
+          {
+              "catalogId"   :"231",
+              "isCommon"    :"true",
+              "title"       :"如何贷款",
+              "content"     :"申请流程"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/helps:
+  get:
+    description: 获取帮助列表
+    queryParameters:
+      scope:
+        type: string
+        description: all | list
+      pageNum:
+        type: integer
+        description: 默认为1
+      catalogId:
+        type: integer
+        description: 类别id
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "page_size": 15,
+                "page_number": 1,
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/help/{id}:
+  get:
+      description: 获取一个帮助
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{
+                      "id"          :"1234",
+                      "catalogId"   :"1211",
+                      "catalogName" :"账号问题",
+                      "isCommon"    :"1",
+                      "title"       :"如何贷款",
+                      "content"     :"申请流程",
+                      "create_time" :"12344556533",
+                      "update_time" :"234345446456"
+                  }
+                }
+  put:
+    description: 更新一个帮助
+    body:
+      application/json:
+        schema: |
+          {
+              "catalogId"   :"231",
+              "title"       :"如何贷款",
+              "content"     :"申请流程"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+  delete:
+    description: 删除一个帮助
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data":{}
+              }
+/help/{id}/common:
+  put:
+      description: 将一个帮助设为常用
+      queryParameters:
+        isCommon:
+          type: boolean
+          description: true为常用，false为非常用
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code":"200",
+                  "message":"success",
+                  "data":{}
+                }
+/catalogs:
+  get:
+    description: 获取帮助类别列表
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "page_size": 15,
+                "page_number": 1,
+                "data":
+                [
+                  { },
+                  { }
+                ]
+              }
+/search:
+  get:
+    description: 搜索帮助信息
+    queryParameters:
+      keywrods:
+        type: string
+      scope:
+        type: string
+        description: post | reply | help
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code":"200",
+                "message":"success",
+                "data": 
+                [
+                  { },
+                  { }
+                ]
+              }

@@ -1,0 +1,114 @@
+description: 用户操作动态API
+/activities:
+  get:
+    description: 获取activity
+    queryParameters:
+      scope:
+        type: string
+        description: list
+      pageNum:
+        type: integer
+        description: 默认为1
+      pageSize:
+        type: integer
+        description: 默认为10
+      loanId:
+        type: integer
+        description: 贷款项目编号
+      operatorId:
+        type: integer
+        description: 操作者id
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 112,
+                    "operatorId": 2,
+                    "createTime": 1460426778000,
+                    "operation": {
+                      "code": "LOAN_PAY",
+                      "value": "收了{0}笔款"
+                    },
+                    "operationParams": [
+                      "3"
+                    ],
+                    "operationMessage": "收了3笔款",
+                    "objectType": {
+                      "code": "LOAN",
+                      "value": "贷款项目"
+                    },
+                    "objectId": 8,
+                    "objectName": "hu hu peng00001",
+                    "workspaceId": 11,
+                    "operatorName": "Li Mi",
+                    "operatorAvatarId": 412,
+                    "operatorAvatarUrl": "http://7xnjli.com1.z0.glb.clouddn.com/avatar9bb7fd.png"
+                  },
+                  {
+                    "id": 111,
+                    "operatorId": 2,
+                    "createTime": 1460425490000,
+                    "operation": {
+                      "code": "ADD_CUSTOMER",
+                      "value": "新增了客户"
+                    },
+                    "operationParams": null,
+                    "operationMessage": "新增了客户",
+                    "objectType": {
+                      "code": "CUSTOMER",
+                      "value": "客户"
+                    },
+                    "objectId": 295,
+                    "objectName": "aaa",
+                    "workspaceId": 11,
+                    "operatorName": "Li Mi",
+                    "operatorAvatarId": 412,
+                    "operatorAvatarUrl": "http://7xnjli.com1.z0.glb.clouddn.com/avatar9bb7fd.png"
+                  },
+                  {
+                    "id": 110,
+                    "operatorId": 2,
+                    "createTime": 1460424676000,
+                    "operation": {
+                      "code": "LOAN_CREATE",
+                      "value": "录入了新的贷款合同"
+                    },
+                    "operationParams": null,
+                    "operationMessage": "录入了新的贷款合同",
+                    "objectType": {
+                      "code": "LOAN",
+                      "value": "贷款项目"
+                    },
+                    "objectId": 628,
+                    "objectName": "1110054",
+                    "workspaceId": 11,
+                    "operatorName": "Li Mi",
+                    "operatorAvatarId": 412,
+                    "operatorAvatarUrl": "http://7xnjli.com1.z0.glb.clouddn.com/avatar9bb7fd.png"
+                  }
+                ],
+                "paginator": {
+                  "page": 1,
+                  "items": 3,
+                  "itemsPerPage": 10,
+                  "length": 3,
+                  "offset": 0,
+                  "beginIndex": 1,
+                  "endIndex": 3,
+                  "firstPage": 1,
+                  "lastPage": 1,
+                  "pages": 1,
+                  "previousPage": 1,
+                  "nextPage": 1,
+                  "slider": [
+                    1
+                  ]
+                },
+                "success": true
+              }

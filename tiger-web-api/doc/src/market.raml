@@ -1,0 +1,1139 @@
+description: 小贷市场API
+/project:
+  post:
+    is: [secured]
+    description: |
+      新增一个项目
+    body:
+      application/json:
+        schema: |
+          {
+            "period": 10,
+            "amount": 110000.00,
+            "description": "fdsafda",
+            "title": "fdsahjkfdshaj",
+            "hasBack": true,
+            "minBackPercent": 2,
+            "maxBackPercent": 4,
+            "pawnType": "CAR_PAWN",
+            "address": "上海市-嘉定区",
+            "addressKey": "fdsafsa",
+            "name": "王小二",
+            "mobilePhone": "18577287282"
+          }
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": {
+                  "id": 8,
+                  "period": 10,
+                  "accountId": 1003,
+                  "createTime": 1457600966000,
+                  "updateTime": 1457600966000,
+                  "amount": 110000.0,
+                  "description": "fdsafda",
+                  "title": "fdsahjkfdshaj",
+                  "hasBack": true,
+                  "pawnType": {
+                    "code": "CAR_PAWN",
+                    "value": "汽车抵押"
+                  },
+                  "minBackPercent": 2.0,
+                  "maxBackPercent": 4.0,
+                  "contactInfo": {
+                    "name": "王小二",
+                    "mobilePhone": "18577287282"
+                  },
+                  "address": "上海市-嘉定区",
+                  "addressKey": "fdsafsa",
+                  "property": {
+                    "hasAwesome": true,
+                    "awesomeCount": 1,
+                    "hasCollect": true
+                  }
+                },
+                "success": true
+              }
+
+  /{id}:
+    get:
+      description:
+        获取项目
+      queryParameters:
+        loginAccount:
+          type: integer
+          required: false
+          description: |
+            如果是登录用户，把用户id放在query参数里，可以拉取用户是否点赞等property信息
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 8,
+                    "period": 10,
+                    "accountId": 1003,
+                    "createTime": 1457600966000,
+                    "updateTime": 1457600966000,
+                    "amount": 110000.0,
+                    "description": "fdsafda",
+                    "title": "fdsahjkfdshaj",
+                    "hasBack": true,
+                    "pawnType": {
+                      "code": "CAR_PAWN",
+                      "value": "汽车抵押"
+                    },
+                    "minBackPercent": 2.0,
+                    "maxBackPercent": 4.0,
+                    "contactInfo": {
+                      "name": "王小二",
+                      "mobilePhone": "18577287282"
+                    },
+                    "address": "上海市-嘉定区",
+                    "addressKey": "fdsafsa",
+                    "property": {
+                      "hasAwesome": true,
+                      "awesomeCount": 1,
+                      "hasCollect": true
+                    }
+                  },
+                  "success": true
+                }
+    delete:
+      description:
+        删除项目
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": true,
+                  "success": true
+                }
+    put:
+      description: |
+         更新项目
+      body:
+        application/json:
+          schema: |
+            {
+              "period": 10,
+              "amount": 110000.00,
+              "description": "fdsafda",
+              "title": "fdsahjkfdshaj",
+              "hasBack": true,
+              "minBackPercent": 2,
+              "maxBackPercent": 4,
+              "pawnType": "CAR_PAWN",
+              "address": "上海市-嘉定区",
+              "addressKey": "fdsafsa",
+              "name": "王小二",
+              "mobilePhone": "18577287282"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 8,
+                    "period": 10,
+                    "accountId": 1003,
+                    "createTime": 1457600966000,
+                    "updateTime": 1457600966000,
+                    "amount": 110000.0,
+                    "description": "fdsafda",
+                    "title": "fdsahjkfdshaj",
+                    "hasBack": true,
+                    "pawnType": {
+                      "code": "CAR_PAWN",
+                      "value": "汽车抵押"
+                    },
+                    "minBackPercent": 2.0,
+                    "maxBackPercent": 4.0,
+                    "contactInfo": {
+                      "name": "王小二",
+                      "mobilePhone": "18577287282"
+                    },
+                    "address": "上海市-嘉定区",
+                    "addressKey": "fdsafsa",
+                    "property": {
+                      "hasAwesome": true,
+                      "awesomeCount": 1,
+                      "hasCollect": true
+                    }
+                  },
+                  "success": true
+                }
+    /awesome:
+      post:
+        description: |
+          对一个项目点赞
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": 11,
+                    "success": true
+                  }
+      delete:
+        description: |
+          取消点赞
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": true,
+                    "success": true
+                  }
+    /collection:
+      post:
+        description: |
+          收藏一个项目
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": true,
+                    "success": true
+                  }
+      delete:
+        description: |
+          取消收藏
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "code": "200",
+                    "message": "操作成功",
+                    "data": true,
+                    "success": true
+                  }
+
+/topAccounts:
+  description: 获取活跃用户
+  get:
+    queryParameters:
+      top:
+        type: integer
+        description: 活跃用户数量,范围为[1, 20]
+        example: 2
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 15,
+                    "userName": "毕晓东",
+                    "gender": {
+                      "code": "MALE",
+                      "value": "男"
+                    },
+                    "birthday": null,
+                    "idCard": "130121199003150053",
+                    "businessScope": "",
+                    "address": "",
+                    "regionCode": null,
+                    "mobile": "15216758424",
+                    "selfIntroduction": null,
+                    "icon": {
+                      "id": 719,
+                      "url": "http://7xnjli.com1.z0.glb.clouddn.com/b16d02020.jpg",
+                      "name": "b16.jpg",
+                      "size": 56423,
+                      "attachType": {
+                        "code": "PUBLIC",
+                        "value": "公开附件"
+                      },
+                      "metaData": {
+                        "type": "ACCOUNT_ICON"
+                      },
+                      "accountId": 15,
+                      "isDel": false
+                    },
+                    "createTime": 1452932257000,
+                    "updateTime": 1457141744000,
+                    "companyDomain": {
+                      "id": 13,
+                      "name": "暴走大事件",
+                      "phone": "",
+                      "address": "",
+                      "confirm": null
+                    },
+                    "extParams": {
+                      "BAD_LOAN_DAY": "90",
+                      "OVER_DUE_DAY": "30"
+                    }
+                  },
+                  {
+                    "id": 1011,
+                    "userName": "小马",
+                    "gender": null,
+                    "birthday": null,
+                    "idCard": null,
+                    "businessScope": null,
+                    "address": null,
+                    "regionCode": null,
+                    "mobile": "15800393639",
+                    "selfIntroduction": null,
+                    "icon": null,
+                    "createTime": 1456823307000,
+                    "updateTime": 1456823307000,
+                    "companyDomain": {
+                      "id": 34,
+                      "name": null,
+                      "phone": null,
+                      "address": null,
+                      "confirm": null
+                    },
+                    "extParams": null
+                  }
+                ],
+                "success": true
+              }
+/projects:
+  description: |
+    查询项目
+  get:
+    queryParameters:
+      loginAccount:
+        type: integer
+        required: false
+        description: |
+          如果是登录用户，把用户id放在query参数里，可以拉取用户是否点赞等property信息
+      accountId:
+        type: string
+        required: false
+        description: |
+          用户 id
+      addressKeys:
+        type: string
+        required: true
+        example: |
+          可以传多个
+      pageSize:
+        type: number
+        description: 页面大小，可选，默认10
+      pageNum:
+        type: number
+        description: 页数，可选，默认1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 7,
+                    "period": 10,
+                    "accountId": 1012,
+                    "account": {
+                      "id": 1012,
+                      "userName": "欧阳俊鹏测试中",
+                      "gender": null,
+                      "birthday": null,
+                      "idCard": null,
+                      "businessScope": null,
+                      "address": null,
+                      "regionCode": null,
+                      "mobile": "15221529016",
+                      "selfIntroduction": null,
+                      "icon": null,
+                      "createTime": 1457161281000,
+                      "updateTime": 1457161281000,
+                      "companyDomain": {
+                        "id": 35,
+                        "name": null,
+                        "phone": null,
+                        "address": null,
+                        "confirm": null
+                      },
+                      "extParams": null
+                    },
+                    "createTime": 1457761464000,
+                    "updateTime": 1457761464000,
+                    "amount": 110000.0,
+                    "description": null,
+                    "title": "fdsahjkfdshaj",
+                    "hasBack": false,
+                    "pawnType": {
+                      "code": "CAR_PAWN",
+                      "value": "汽车抵押"
+                    },
+                    "minBackPercent": 0.0,
+                    "maxBackPercent": 0.0,
+                    "contactInfo": {
+                      "name": "王小二",
+                      "mobilePhone": "18577287283"
+                    },
+                    "address": "上海市-宝山区",
+                    "addressKey": "fdsafsa",
+                    "property": {
+                      "hasAwesome": true,
+                      "awesomeCount": 1,
+                      "hasCollect": false
+                    }
+                  }
+                ],
+                "paginator": {
+                  "page": 1,
+                  "items": 6,
+                  "itemsPerPage": 10,
+                  "length": 6,
+                  "offset": 0,
+                  "beginIndex": 1,
+                  "endIndex": 6,
+                  "pages": 1,
+                  "firstPage": 1,
+                  "lastPage": 1,
+                  "previousPage": 1,
+                  "nextPage": 1,
+                  "slider": [
+                    1
+                  ]
+                },
+                "success": true
+              }
+  /userCollection/{accountId}:
+    get:
+      description: |
+        查看用户收藏的项目,想看那个用户的收藏项目就传那个用户的 accountId 到 Path Param
+        里面
+      queryParameters:
+        loginAccount:
+          type: integer
+          required: false
+          description: |
+            如果是登录用户，把用户id放在query参数里，可以拉取用户是否点赞等property信息
+        pageSize:
+          type: number
+          description: 页面大小，可选，默认10
+        pageNum:
+          type: number
+          description: 页数，可选，默认1
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": [
+                    {
+                      "id": 7,
+                      "period": 10,
+                      "accountId": 1003,
+                      "createTime": 1457761464000,
+                      "updateTime": 1457761464000,
+                      "amount": 110000.0,
+                      "description": null,
+                      "title": "fdsahjkfdshaj",
+                      "hasBack": false,
+                      "pawnType": {
+                        "code": "CAR_PAWN",
+                        "value": "汽车抵押"
+                      },
+                      "minBackPercent": 0.0,
+                      "maxBackPercent": 0.0,
+                      "contactInfo": {
+                        "name": "王小二",
+                        "mobilePhone": "18577287283"
+                      },
+                      "address": "上海市-宝山区",
+                      "addressKey": "fdsafsa",
+                      "property": {
+                        "hasAwesome": true,
+                        "awesomeCount": 1,
+                        "hasCollect": false
+                      }
+                    }
+                  ],
+                  "paginator": {
+                    "page": 1,
+                    "items": 6,
+                    "itemsPerPage": 10,
+                    "length": 6,
+                    "offset": 0,
+                    "beginIndex": 1,
+                    "endIndex": 6,
+                    "pages": 1,
+                    "firstPage": 1,
+                    "lastPage": 1,
+                    "previousPage": 1,
+                    "nextPage": 1,
+                    "slider": [
+                      1
+                    ]
+                  },
+                  "success": true
+                }
+
+/regions:
+  get:
+    description: |
+      获取满足条件的城市列表<br />
+      注意：ids, codes, 和names 三者中有且只能有一种
+    queryParameters:
+      ids:
+        description: 城市id，可以传多个
+        example: 2(北京市)
+      codes:
+        description: 城市编码，可以传多个
+        example: 130000(北京市)
+      names:
+        description: 城市名称，可以传多个
+        example: 北京市
+      isUpward:
+        description: 是否为向上搜索，默认为false
+        example: true | false
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 2,
+                    "code": "110000",
+                    "name": "北京市",
+                    "fullName": "北京市",
+                    "children": [
+                      {
+                        "id": 3,
+                        "code": "110101",
+                        "name": "东城区",
+                        "fullName": "北京市-东城区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 4,
+                        "code": "110102",
+                        "name": "西城区",
+                        "fullName": "北京市-西城区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 5,
+                        "code": "110105",
+                        "name": "朝阳区",
+                        "fullName": "北京市-朝阳区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 6,
+                        "code": "110106",
+                        "name": "丰台区",
+                        "fullName": "北京市-丰台区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 7,
+                        "code": "110107",
+                        "name": "石景山区",
+                        "fullName": "北京市-石景山区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 8,
+                        "code": "110108",
+                        "name": "海淀区",
+                        "fullName": "北京市-海淀区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 9,
+                        "code": "110109",
+                        "name": "门头沟区",
+                        "fullName": "北京市-门头沟区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 10,
+                        "code": "110111",
+                        "name": "房山区",
+                        "fullName": "北京市-房山区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 11,
+                        "code": "110112",
+                        "name": "通州区",
+                        "fullName": "北京市-通州区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 12,
+                        "code": "110113",
+                        "name": "顺义区",
+                        "fullName": "北京市-顺义区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 13,
+                        "code": "110114",
+                        "name": "昌平区",
+                        "fullName": "北京市-昌平区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 14,
+                        "code": "110115",
+                        "name": "大兴区",
+                        "fullName": "北京市-大兴区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 15,
+                        "code": "110116",
+                        "name": "怀柔区",
+                        "fullName": "北京市-怀柔区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 16,
+                        "code": "110117",
+                        "name": "平谷区",
+                        "fullName": "北京市-平谷区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 17,
+                        "code": "110228",
+                        "name": "密云县",
+                        "fullName": "北京市-密云县",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 18,
+                        "code": "110229",
+                        "name": "延庆县",
+                        "fullName": "北京市-延庆县",
+                        "children": [],
+                        "qrCodes": []
+                      }
+                    ],
+                    "qrCodes": []
+                  }
+                ],
+                "success": true
+              }
+
+/region/support:
+  get:
+    description: 获取系统支持的城市列表
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 920,
+                    "code": "320500",
+                    "name": "苏州市",
+                    "fullName": "苏州市",
+                    "children": [
+                      {
+                        "id": 921,
+                        "code": "320501",
+                        "name": "市辖区",
+                        "fullName": "苏州市-市辖区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 922,
+                        "code": "320505",
+                        "name": "虎丘区",
+                        "fullName": "苏州市-虎丘区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 923,
+                        "code": "320506",
+                        "name": "吴中区",
+                        "fullName": "苏州市-吴中区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 924,
+                        "code": "320507",
+                        "name": "相城区",
+                        "fullName": "苏州市-相城区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 925,
+                        "code": "320508",
+                        "name": "姑苏区",
+                        "fullName": "苏州市-姑苏区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 926,
+                        "code": "320509",
+                        "name": "吴江区",
+                        "fullName": "苏州市-吴江区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 927,
+                        "code": "320581",
+                        "name": "常熟市",
+                        "fullName": "苏州市-常熟市",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 928,
+                        "code": "320582",
+                        "name": "张家港市",
+                        "fullName": "苏州市-张家港市",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 929,
+                        "code": "320583",
+                        "name": "昆山市",
+                        "fullName": "苏州市-昆山市",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 930,
+                        "code": "320585",
+                        "name": "太仓市",
+                        "fullName": "苏州市-太仓市",
+                        "children": [],
+                        "qrCodes": []
+                      }
+                    ],
+                    "qrCodes": []
+                  },
+                  {
+                    "id": 857,
+                    "code": "310000",
+                    "name": "上海市",
+                    "fullName": "上海市",
+                    "children": [
+                      {
+                        "id": 858,
+                        "code": "310101",
+                        "name": "黄浦区",
+                        "fullName": "上海市-黄浦区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 859,
+                        "code": "310104",
+                        "name": "徐汇区",
+                        "fullName": "上海市-徐汇区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 860,
+                        "code": "310105",
+                        "name": "长宁区",
+                        "fullName": "上海市-长宁区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 861,
+                        "code": "310106",
+                        "name": "静安区",
+                        "fullName": "上海市-静安区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 862,
+                        "code": "310107",
+                        "name": "普陀区",
+                        "fullName": "上海市-普陀区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 863,
+                        "code": "310108",
+                        "name": "闸北区",
+                        "fullName": "上海市-闸北区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 864,
+                        "code": "310109",
+                        "name": "虹口区",
+                        "fullName": "上海市-虹口区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 865,
+                        "code": "310110",
+                        "name": "杨浦区",
+                        "fullName": "上海市-杨浦区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 866,
+                        "code": "310112",
+                        "name": "闵行区",
+                        "fullName": "上海市-闵行区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 867,
+                        "code": "310113",
+                        "name": "宝山区",
+                        "fullName": "上海市-宝山区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 868,
+                        "code": "310114",
+                        "name": "嘉定区",
+                        "fullName": "上海市-嘉定区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 869,
+                        "code": "310115",
+                        "name": "浦东新区",
+                        "fullName": "上海市-浦东新区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 870,
+                        "code": "310116",
+                        "name": "金山区",
+                        "fullName": "上海市-金山区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 871,
+                        "code": "310117",
+                        "name": "松江区",
+                        "fullName": "上海市-松江区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 872,
+                        "code": "310118",
+                        "name": "青浦区",
+                        "fullName": "上海市-青浦区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 873,
+                        "code": "310120",
+                        "name": "奉贤区",
+                        "fullName": "上海市-奉贤区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 874,
+                        "code": "310230",
+                        "name": "崇明县",
+                        "fullName": "上海市-崇明县",
+                        "children": [],
+                        "qrCodes": []
+                      }
+                    ],
+                    "qrCodes": []
+                  },
+                  {
+                    "id": 1002,
+                    "code": "330100",
+                    "name": "杭州市",
+                    "fullName": "杭州市",
+                    "children": [
+                      {
+                        "id": 1003,
+                        "code": "330101",
+                        "name": "市辖区",
+                        "fullName": "杭州市-市辖区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1004,
+                        "code": "330102",
+                        "name": "上城区",
+                        "fullName": "杭州市-上城区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1005,
+                        "code": "330103",
+                        "name": "下城区",
+                        "fullName": "杭州市-下城区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1006,
+                        "code": "330104",
+                        "name": "江干区",
+                        "fullName": "杭州市-江干区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1007,
+                        "code": "330105",
+                        "name": "拱墅区",
+                        "fullName": "杭州市-拱墅区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1008,
+                        "code": "330106",
+                        "name": "西湖区",
+                        "fullName": "杭州市-西湖区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1009,
+                        "code": "330108",
+                        "name": "滨江区",
+                        "fullName": "杭州市-滨江区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1010,
+                        "code": "330109",
+                        "name": "萧山区",
+                        "fullName": "杭州市-萧山区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1011,
+                        "code": "330110",
+                        "name": "余杭区",
+                        "fullName": "杭州市-余杭区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1012,
+                        "code": "330111",
+                        "name": "富阳区",
+                        "fullName": "杭州市-富阳区",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1013,
+                        "code": "330122",
+                        "name": "桐庐县",
+                        "fullName": "杭州市-桐庐县",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1014,
+                        "code": "330127",
+                        "name": "淳安县",
+                        "fullName": "杭州市-淳安县",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1015,
+                        "code": "330182",
+                        "name": "建德市",
+                        "fullName": "杭州市-建德市",
+                        "children": [],
+                        "qrCodes": []
+                      },
+                      {
+                        "id": 1016,
+                        "code": "330185",
+                        "name": "临安市",
+                        "fullName": "杭州市-临安市",
+                        "children": [],
+                        "qrCodes": []
+                      }
+                    ],
+                    "qrCodes": []
+                  }
+                ],
+                "success": true
+              }
+
+  /QRCode:
+    get:
+      description: 所支持地区二维码获取
+      queryParameters:
+        code:
+          description: 地区编码
+          required: true
+          example: 310114 (嘉定区)
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "code": "200",
+                  "message": "操作成功",
+                  "data": {
+                    "id": 868,
+                    "code": "310114",
+                    "name": "嘉定区",
+                    "fullName": "嘉定区",
+                    "children": [],
+                    "qrCodes": [
+                      {
+                        "id": 2,
+                        "url": "http://7xnjli.com1.z0.glb.clouddn.com/萩村鈴30158c.png",
+                        "name": "萩村鈴.png",
+                        "size": 65398,
+                        "attachType": {
+                          "code": "PUBLIC",
+                          "value": "公开附件"
+                        },
+                        "metaData": {
+                          "type": "ACCOUNT_ICON"
+                        },
+                        "accountId": 2,
+                        "isDel": false
+                      }
+                    ]
+                  },
+                  "success": true
+                }
+
+/latestProjects:
+  description: 获取最新项目
+  get:
+    queryParameters:
+      top:
+        type: integer
+        description: 最新项目数量, 范围为[1, 20]
+        example: 1
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "code": "200",
+                "message": "操作成功",
+                "data": [
+                  {
+                    "id": 15,
+                    "period": 12,
+                    "accountId": 1012,
+                    "account": null,
+                    "createTime": 1457786451000,
+                    "updateTime": 1457786451000,
+                    "amount": 1000000,
+                    "description": null,
+                    "title": "测试",
+                    "hasBack": true,
+                    "pawnType": {
+                      "code": "HOUSE_PAWN",
+                      "value": "房屋抵押"
+                    },
+                    "minBackPercent": 0.03,
+                    "maxBackPercent": 1,
+                    "contactInfo": {
+                      "name": "我只是个搞重构的",
+                      "mobilePhone": "15221529016"
+                    },
+                    "address": "上海市-嘉定区",
+                    "addressKey": "310114",
+                    "property": {
+                      "hasAwesome": false,
+                      "awesomeCount": 0,
+                      "hasCollect": false
+                    }
+                  }
+                ],
+                "success": true
+              }
